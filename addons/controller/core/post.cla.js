@@ -53,7 +53,7 @@ class Post {
                 }
             }
         } catch (err) {
-            Auth.logError('Create Post [POST CLASS]', err);
+            Post.logError('Create Post [POST CLASS]', err);
         }
 
         return this.response;

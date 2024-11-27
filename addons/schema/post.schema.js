@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+const Security = require(MISC_CON + 'security.cla');
+
 const postSchema = new Schema({
     post_id: { //for unique id
         type : String,
