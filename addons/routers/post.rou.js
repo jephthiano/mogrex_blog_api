@@ -4,21 +4,20 @@ const router = new express.Router();
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
 
-// const Blog = require(CORE_CON + 'blog.cla');
-const Validator = require(VALIDATORS + 'blog.val');
+const Post = require(CORE_CON + 'post.cla');
+const Validator = require(VALIDATORS + 'post.val');
 
 //CREATE
 router.post('/create', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
-    const error = await Validator.create_blog(req.data.input, req.data.userData);
+    const error = await Validator.create_post(req.data.input, req.data.userData);
 
     //if there is no error
     if (!error.status) {
-        console.log('perfect');
-        // const BlogIns = new Blog(req, res);
-        // response = await BlogIns.createBlog();
+        const PostIns = new Post(req, res);
+        response = await PostIns.createPost();
     }else{
         //set the error in response data
         response['errorData'] = error.data;

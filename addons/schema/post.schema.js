@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const blogSchema = new Schema({
-    blog_id: { //for unique id
+const postSchema = new Schema({
+    post_id: { //for unique id
         type : String,
         unique : true,
         trim : true 
@@ -42,7 +42,7 @@ const blogSchema = new Schema({
     },
 });
 
-blogSchema.pre('findOneAndUpdate', function (next) {
+postSchema.pre('findOneAndUpdate', function (next) {
     
     //set updated at
     this.updated_at = new Date();
@@ -50,6 +50,6 @@ blogSchema.pre('findOneAndUpdate', function (next) {
     next();
 });
 
-const blog = mongoose.model('blog', blogSchema);
+const post = mongoose.model('post', postSchema);
 
-module.exports = blog;
+module.exports = post;
