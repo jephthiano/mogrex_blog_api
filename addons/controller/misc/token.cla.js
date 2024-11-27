@@ -15,8 +15,6 @@ class Token {
         General.log(type,data,'error')
     }
 
-    
-
     static setToken(id){
         const token = jwt.sign({ id: id }, process.env.JWT_SECRET_KEY);
 
@@ -35,7 +33,7 @@ class Token {
                 if (decoded.id) {
                     //get the user details and pass it into req
                     const userData = await User.findOne({_id : decoded.id});
-                    if (userData) {
+                    if (userData) { 
                         //if user is not suspended
                         if (userData.status !== 'suspended') {
                             //set user data and token into req

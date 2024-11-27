@@ -48,9 +48,10 @@ class Auth {
                         this.response['message_detail'] = "Contact admin for more information";
                     } else {
                         //get userData
-                        const userData = await UserSch.findOne({_id : result.id}, '-password -id -__v');
+                        const userData = await UserSch.findOne({_id : result.id}, '-password -_id -__v');
                         if (userData) {
                             this.response['status'] = true;
+                            this.response['id'] = result.id;
                             this.response['message'] = "Success";
                             this.response['message_detail'] = "Login successful";
                             this.response['responseData'] = userData;
@@ -76,11 +77,12 @@ class Auth {
             // data is stored
             if (result) {
                 //get userData
-                const userData = await UserSch.findOne({_id : result.id}, '-password -id -__v');
+                const userData = await UserSch.findOne({_id : result.id}, '-password -_id -__v');
 
                 if (userData) {
                     //set response
                     this.response['status'] = true;
+                    this.response['id'] = result.id;
                     this.response['message'] = "Success";
                     this.response['message_detail'] = "Account successfully created";
                     this.response['responseData'] = userData;
@@ -92,7 +94,7 @@ class Auth {
                         subject : Messaging.subjectTemplate('welcome'),
                         message: Messaging.messageTemplate('welcome', 'email')
                     }
-                    Messaging.sendEmail(messageData)
+                    Messaging.sendEmail(messageData);
                 }
             }
         } catch (err) {

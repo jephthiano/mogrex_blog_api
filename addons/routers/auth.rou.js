@@ -22,8 +22,11 @@ router.post('/login', async(req,res) => {
 
         if (response.status) {
             //set auth [with jwt and cookies]
-            const token = await Token.setToken();
-            res.cookie( "token", token )
+            const token = await Token.setToken(response.id);
+            res.cookie("token", token)
+            
+            //unset id key
+            delete response['id']
         }
 
     }else{
@@ -50,15 +53,30 @@ router.post('/register', async(req,res) => {
 
         if (response.status) {
             //set auth [with jwt and cookies]
-            const token = await Token.setToken();
-            res.cookie( "token", token )
+            const token = await Token.setToken(response.id);
+            res.cookie("token", token)
+            
+            //unset id key
+            delete response['id']
         }
-
-
     }else{
         //set the error in response data
         response['errorData'] = error.data;
     }
+    
+    Security.returnResponse(res, req, response);    
+    return;
+})
+
+//LOGOUT
+router.get('/logout', async(req,res) => {
+    let response = General.initial_response('invalid_input');
+    this.response['status'] = true;
+    this.response['message'] = "Success";
+    this.response['message_detail'] = "Log out successful";
+
+    // unset cookie
+    res.clearCookie('token');
     
     Security.returnResponse(res, req, response);    
     return;
