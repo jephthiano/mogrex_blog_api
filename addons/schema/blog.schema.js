@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const blogSchema = new Schema({
-    unique_id: { //for unique id
+    blog_id: { //for unique id
         type : String,
         unique : true,
         trim : true 
@@ -42,7 +42,7 @@ const blogSchema = new Schema({
     },
 });
 
-blogSchema.pre('findByIdAndUpdate', function (next) {
+blogSchema.pre('findOneAndUpdate', function (next) {
     
     //set updated at
     this.updated_at = new Date();
