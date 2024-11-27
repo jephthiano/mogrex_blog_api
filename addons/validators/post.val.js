@@ -38,6 +38,37 @@ class Post {
 
         return errRes;
     }
+
+    static async update_post (inputs, userData){
+        let error = {}
+        let errRes = { status: true, data: {} }
+        let { title, content, tags } = inputs;
+        let { id: created_by } = userData;
+
+        //check if title is empty
+        if(!title || General.isEmptyString(title)){
+            error['title'] = "title is required";
+        }
+
+        //check if content is empty
+        if(!content || General.isEmptyString(content)){
+            error['content'] = "content is required";
+        }
+
+        //check if tags is empty
+        if(!tags || General.isEmptyString(tags)){
+            error['tags'] = "tags is required";
+        }
+
+        //if there is no error
+        if(General.isEmptyObject(error)){
+            errRes['status'] = false;
+        }else{
+            errRes['data'] = error
+        }
+
+        return errRes;
+    }
 }
 
 module.exports = Post;

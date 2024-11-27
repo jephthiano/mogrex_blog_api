@@ -27,6 +27,26 @@ router.post('/create', async(req,res) => {
     return;
 })
 
+//UPDATE
+router.put('/update', async(req,res) => {
+    let response = General.initial_response('invalid_input');
+
+    //validate inputs
+    const error = await Validator.update_post(req.data.input, req.data.userData);
+
+    //if there is no error
+    if (!error.status) {
+        const PostIns = new Post(req, res);
+        response = await PostIns.updatePost();
+    }else{
+        //set the error in response data
+        response['errorData'] = error.data;
+    }
+    
+    Security.returnResponse(res, req, response);
+    return;
+})
+
 //DELETE
 router.delete('/delete', async(req, res) => {
     let response = General.initial_response('invalid_input');

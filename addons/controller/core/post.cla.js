@@ -40,7 +40,7 @@ class Post {
             // data is stored
             if (result) {
                 //get postData
-                const postData = await PostSch.findOne({_id : result.id}, '-password -_id -__v');
+                const postData = await PostSch.findOne({_id : result.id}, '-_id -__v');
 
                 if (postData) {
                     //set response
@@ -59,15 +59,49 @@ class Post {
         return this.response;
     }
 
+    // UPDATE POST
+    async updatePost() {
+        this.response['message_detail'] = "Post could not be updated, you may not be eligible to update post or the post is not available";
+        try {
+            const { post_id } = this.input;
+            const { id: created_by } = this.userData;
+
+            //save into db
+            const updatePostData = await PostSch.findOneAndUpdate(
+                { post_id, created_by },
+                this.input,
+                {new: true}
+            );
+
+            // data is stored
+            if (updatePostData) {
+                //unset some keys
+                delete updatePostData['id']
+                delete updatePostData['__v']
+
+                //set response
+                this.response['status'] = true;
+                this.response['message'] = "Success";
+                this.response['message_detail'] = "Post successfully uodated";
+                this.response['responseData'] = updatePostData;  
+                  
+            }
+        } catch (err) {
+            Post.logError('Update Post [POST CLASS]', err);
+        }
+
+        return this.response;
+    }
+
     // DELETE POST
     async deletePost() {
         this.response['message_detail'] = "Post could not be deleted, you may not be eligible to delete post or the post is not available";
         try {
-            const { post_id} = this.inputs;
+            const { post_id } = this.input;
             const { id: created_by } = this.userData;
 
             //find one and delete if valid
-            const deletePost = PostSch.findOneAndDelete({ post_id, created_by });
+            const deletePost = await PostSch.findOneAndDelete({ post_id, created_by });
 
             if (deletePost) {
                 //set response
@@ -76,7 +110,7 @@ class Post {
                 this.response['message_detail'] = "Post successfully deleted";
             }
         } catch (err) {
-            Post.logError('Create Post [POST CLASS]', err);
+            Post.logError('Delete Post [POST CLASS]', err);
         }
 
         return this.response;
