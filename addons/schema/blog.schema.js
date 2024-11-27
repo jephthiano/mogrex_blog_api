@@ -42,6 +42,14 @@ const blogSchema = new Schema({
     },
 });
 
+blogSchema.pre('findByIdAndUpdate', function (next) {
+    
+    //set updated at
+    this.updated_at = new Date();
+    
+    next();
+});
+
 const blog = mongoose.model('blog', blogSchema);
 
 module.exports = blog;
