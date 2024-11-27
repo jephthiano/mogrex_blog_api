@@ -61,10 +61,10 @@ class Post {
 
     // DELETE POST
     async deletePost() {
-        this.response['message_detail'] = "Error occurred while deleting post";
+        this.response['message_detail'] = "Post could not be deleted, you may not be eligible to delete post or the post is not available";
         try {
-            const { post_id} = inputs;
-            const { id: created_by } = userData;
+            const { post_id} = this.inputs;
+            const { id: created_by } = this.userData;
 
             //find one and delete if valid
             const deletePost = PostSch.findOneAndDelete({ post_id, created_by });
@@ -74,8 +74,6 @@ class Post {
                 this.response['status'] = true;
                 this.response['message'] = "Success";
                 this.response['message_detail'] = "Post successfully deleted";
-            } else {
-                this.response['message_detail'] = "";
             }
         } catch (err) {
             Post.logError('Create Post [POST CLASS]', err);
