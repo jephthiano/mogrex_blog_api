@@ -19,7 +19,10 @@ class Token {
 
     static setToken(id){
         const token = jwt.sign({ id: id }, process.env.JWT_SECRET_KEY);
-        return token;
+
+        // set token into cookie
+
+        // return token;
     }
 
     static async verifyToken(req, res, next){

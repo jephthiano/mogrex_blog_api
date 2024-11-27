@@ -70,18 +70,6 @@ class General {
     static ucFirst (data){
         return data.charAt(0).toUpperCase() + data.slice(1);
     }
-
-    static isDateLapsed(givenDate, duration=0, checkDate = new Date()){
-        const milliDuration = (1000 * duration);
-        givenDate = ((new Date(givenDate)).getTime() + milliDuration);
-        checkDate = checkDate.getTime();
-
-        return givenDate < checkDate;
-    }
-
-    static toMoney(data){
-        return  data.toFixed(2);
-    }
 }
 
 module.exports = General;
