@@ -42,6 +42,13 @@ const postSchema = new Schema({
     },
 });
 
+userSchema.pre('save', function (next) {
+    //set post id
+    this.post_id = "post" + Security.generateUniqueId(10);
+    
+    next();
+});
+
 postSchema.pre('findOneAndUpdate', function (next) {
     
     //set updated at
