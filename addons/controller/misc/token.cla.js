@@ -20,38 +20,40 @@ class Token {
     static setToken(id){
         const token = jwt.sign({ id: id }, process.env.JWT_SECRET_KEY);
 
-        // set token into cookie
-
-        // return token;
+        return token;
     }
 
     static async verifyToken(req, res, next){
         let response = false;
-        const auth = req.headers.authorization;
-        const token = Token.getToken(auth);
 
-        if(token){
+        //get  token from the cookie
+        const token = req.cookies.token
+
+        if (token) {
             try{
                 var decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-                if(decoded.id){
+                if (decoded.id) {
                     //get the user details and pass it into req
                     const userData = await User.findOne({_id : decoded.id});
-                    if(userData){
+                    if (userData) {
                         //if user is not suspended
-                        if(userData.status !== 'suspended'){
+                        if (userData.status !== 'suspended') {
+                            //set user data and token into req
                             req.data['token'] = token;
                             req.data['userData'] = userData;
                             response = true
                         }
                     }
                 }
-            }catch(err){
+            } catch (err) {
                 Token.logError(err);
             }
         }
-        if(response){
+
+        //if everything is fine
+        if (response) {
             next();
-        }else{
+        } else {
             const status = "invalid";
             const message = "Invalid request/connection";
             let rawResponse = {status, message};
@@ -59,22 +61,6 @@ class Token {
             Security.returnResponse(res, req, rawResponse);
             return;
         }
-    }
-
-    static async verifyApiToken(req, res, next){
-        //check if instance is valid
-        //check if user sub_start has not expired
-        //check if instance is active
-        next();
-    }
-
-    static getToken(auth){
-        let response = false;
-        if(auth && auth.startsWith('bearer')){
-            response = auth.split(' ')[1] ?? false;
-        }
-
-        return response;
     }
 }
 

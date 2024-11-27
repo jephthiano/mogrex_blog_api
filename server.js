@@ -4,6 +4,7 @@ const cors = require('cors');
 const { xss } = require('express-xss-sanitizer');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
+const cookieParser = require('cookie-parser')
 
 
 require('dotenv').config();
@@ -32,6 +33,7 @@ const limiter = rateLimit({
 app.use(cors(corsOptions))// set cor
 app.use(limiter);//set rate-limiting
 app.use(express.json());
+app.use(cookieParser()) //cookie parser
 app.use(helmet());// set helmet for http security
 app.use(xss()); //set express xss
 app.use(mongoSanitize());// set express mongo sanitize

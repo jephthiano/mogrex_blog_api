@@ -3,7 +3,6 @@ const UserSch = require(SCHEMA + 'user.schema');
 const Security = require(MISC_CON + 'security.cla');
 const General = require(MISC_CON + 'general.cla');
 const Messaging = require(MISC_CON + 'messaging.cla');
-const Token = require(MISC_CON + 'token.cla');
 
 
 class Auth {
@@ -51,9 +50,6 @@ class Auth {
                         this.response['status'] = true;
                         this.response['message'] = "Success";
                         this.response['message_detail'] = "Login successful";
-
-                        //set auth [with jwt and cookies]
-                        await Token.setToken();
                     }
                 }
             }
@@ -78,9 +74,6 @@ class Auth {
                 this.response['status'] = true;
                 this.response['message'] = "Success";
                 this.response['message_detail'] = "Account successfully created";
-
-                //set auth [with jwt and cookies]
-                await Token.setToken();
                 
                 //send email
                 const messageData = {

@@ -3,6 +3,7 @@ const router = new express.Router();
 
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
+const Token = require(MISC_CON + 'token.cla');
 
 const Auth = require(CORE_CON + 'auth.cla');
 const Validator = require(VALIDATORS + 'auth.val');
@@ -18,6 +19,15 @@ router.post('/login', async(req,res) => {
     if(!error.status){
         const AuthIns = new Auth(req, res);
         response = await AuthIns.login();
+
+        if (response.status) {
+            //set auth [with jwt and cookies]
+            const token = await Token.setToken();
+            
+            //set cookie
+            res.cookies( "token", token )
+        }
+
     }else{
         //set the error in response data
         response['errorData'] = error.data;
@@ -39,6 +49,16 @@ router.post('/register', async(req,res) => {
     if(!error.status){
         const AuthIns = new Auth(req, res);
         response = await AuthIns.register();
+
+        if (response.status) {
+            //set auth [with jwt and cookies]
+            const token = await Token.setToken();
+            
+            //set cookie
+            res.cookies( "token", token )
+        }
+
+
     }else{
         //set the error in response data
         response['errorData'] = error.data;
