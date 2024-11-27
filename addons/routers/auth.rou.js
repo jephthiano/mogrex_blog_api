@@ -23,9 +23,7 @@ router.post('/login', async(req,res) => {
         if (response.status) {
             //set auth [with jwt and cookies]
             const token = await Token.setToken();
-            
-            //set cookie
-            res.cookies( "token", token )
+            res.cookie( "token", token )
         }
 
     }else{
@@ -53,9 +51,7 @@ router.post('/register', async(req,res) => {
         if (response.status) {
             //set auth [with jwt and cookies]
             const token = await Token.setToken();
-            
-            //set cookie
-            res.cookies( "token", token )
+            res.cookie( "token", token )
         }
 
 

@@ -33,28 +33,33 @@ class Auth {
     async login() {
         this.response['message'] = "Incorrect login details";
         this.response['message_detail'] = "Check your login details and try again.";
-        try{
+        try {
             const {login_id , password} = this.input;
             const where = {$or: [{ username: login_id }, { email: login_id }]};
             const result = await UserSch.findOne(where, 'password status');
             
             //if result is found
             if (result) {
-                const { password: db_password, status: userStatus } = result;
+                const { password: db_password, status: userStatus, id } = result;
 
-                if(Security.verify_password(password, db_password)){
-                    if(userStatus === 'suspended'){
+                if (Security.verify_password(password, db_password)) {
+                    if (userStatus === 'suspended') {
                         this.response['message'] = "Your account has been suspended";
                         this.response['message_detail'] = "Contact admin for more information";
-                    }else{
-                        this.response['status'] = true;
-                        this.response['message'] = "Success";
-                        this.response['message_detail'] = "Login successful";
+                    } else {
+                        //get userData
+                        const userData = await UserSch.findOne({_id : result.id}, '-password -id -__v');
+                        if (userData) {
+                            this.response['status'] = true;
+                            this.response['message'] = "Success";
+                            this.response['message_detail'] = "Login successful";
+                            this.response['responseData'] = userData;
+                        }
                     }
                 }
             }
 
-        }catch(err){
+        } catch (err) {
             this.response['message'] = "Login failed";
             Auth.logError('Login [AUTH CLASS]', err);
         }
@@ -65,26 +70,32 @@ class Auth {
     // REGISTER
     async register(regType) {
         this.response['message_detail'] = "Registration failed";
-        try{
+        try {
             let result = await UserSch.create(this.input);
 
             // data is stored
-            if(result){
-                //set response
-                this.response['status'] = true;
-                this.response['message'] = "Success";
-                this.response['message_detail'] = "Account successfully created";
-                
-                //send email
-                const messageData = {
-                    name: this.input.first_name,
-                    receiver : this.input.email,
-                    subject : Messaging.subjectTemplate('welcome'),
-                    message: Messaging.messageTemplate('welcome', 'email')
+            if (result) {
+                //get userData
+                const userData = await UserSch.findOne({_id : result.id}, '-password -id -__v');
+
+                if (userData) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Account successfully created";
+                    this.response['responseData'] = userData;
+                    
+                    //send email
+                    const messageData = {
+                        name: this.input.first_name,
+                        receiver : this.input.email,
+                        subject : Messaging.subjectTemplate('welcome'),
+                        message: Messaging.messageTemplate('welcome', 'email')
+                    }
+                    Messaging.sendEmail(messageData)
                 }
-                Messaging.sendEmail(messageData)
             }
-        }catch(err){
+        } catch (err) {
             Auth.logError('Register [AUTH CLASS]', err);
         }
 
