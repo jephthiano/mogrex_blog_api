@@ -59,29 +59,23 @@ class Post {
         return this.response;
     }
 
-    // CREATE POST
-    async deleteePost() {
-        this.response['message_detail'] = "Post could not be created at the moment";
+    // DELETE POST
+    async deletePost() {
+        this.response['message_detail'] = "Error occurred while deleting post";
         try {
-            //setting created_by into this.input
-            this.input.created_by = this.userData.id;
-            //save into db
-            let result = await PostSch.create(this.input);
+            const { post_id} = inputs;
+            const { id: created_by } = userData;
 
-            // data is stored
-            if (result) {
-                //get postData
-                const postData = await PostSch.findOne({_id : result.id}, '-password -_id -__v');
+            //find one and delete if valid
+            const deletePost = PostSch.findOneAndDelete({ post_id, created_by });
 
-                if (postData) {
-                    //set response
-                    this.response['status'] = true;
-                    this.response['message'] = "Success";
-                    this.response['message_detail'] = "Post successfully created";
-                    this.response['responseData'] = postData;
-                    
-                    
-                }
+            if (deletePost) {
+                //set response
+                this.response['status'] = true;
+                this.response['message'] = "Success";
+                this.response['message_detail'] = "Post successfully deleted";
+            } else {
+                this.response['message_detail'] = "";
             }
         } catch (err) {
             Post.logError('Create Post [POST CLASS]', err);
