@@ -58,6 +58,7 @@ const DB = require(MISC_CON + 'database.cla');
 
 // DECLARING ROUTERS
 const auth = require(ROUTER + 'auth.rou');
+const blog = require(ROUTER + 'blog.rou');
 
 // SET INPUT DATA MIDDLEWARE
 app.use(Request.setInputData);
@@ -66,12 +67,12 @@ app.use(Request.setInputData);
 DB.dbConn();
 
 // USING ROUTERS
-app.use("/auth",auth);// auth route
-// app.use("/fetch", Token.verifyToken, fetch);// fetch route
+app.use("/auth",auth);  // auth route
+app.use("/blog", Token.verifyToken, blog);  // blog route
 
 // if no url is matched
 app.use('*', (req, res) => {
-  // console.log('extra');
+  res.status(401).send('Invalid request');
 })
 
 app.listen(port, () => {

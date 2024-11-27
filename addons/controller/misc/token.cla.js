@@ -25,8 +25,8 @@ class Token {
         let response = false;
 
         //get  token from the cookie
-        const token = req.cookies.token
-
+        const token = req.cookies.token;
+        
         if (token) {
             try{
                 var decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -53,8 +53,9 @@ class Token {
             next();
         } else {
             const status = "invalid";
-            const message = "Invalid request/connection";
-            let rawResponse = {status, message};
+            const message = "Failed";
+            const message_detail = "Unauthorized request/connection";
+            let rawResponse = {status, message, message_detail};
 
             Security.returnResponse(res, req, rawResponse);
             return;

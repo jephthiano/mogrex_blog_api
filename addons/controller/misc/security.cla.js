@@ -55,21 +55,6 @@ class Security {
         return data;
     }
 
-    // static encrypt1(text){
-    //     const cipher = crypto.createCipheriv(method, Buffer.from(key), iv);
-    //     let encrypted = cipher.update(text);
-    //     encrypted = Buffer.concat([encrypted, cipher.final()]);
-    //     return encrypted.toString('hex');
-    // }
-
-    // static decrypt1(text){
-    //     const encryptedText = Buffer.from(text, 'hex');
-    //     const decipher = crypto.createDecipheriv(method, Buffer.from(key), iv);
-    //     let decrypted = decipher.update(encryptedText);
-    //     decrypted = Buffer.concat([decrypted, decipher.final()]);
-    //     return decrypted.toString();
-    // }
-
     static encrypt(data){
         const encrypted = cryptoJS.AES.encrypt(
             data, 
@@ -99,21 +84,6 @@ class Security {
         if(type === 'mobile_number') result = validator.isNumeric(data) && validator.isLength(data, { min: 11, max: 11 });    
         
         return result;
-    }
-
-    static validate_pin(pin){
-        // if(pin == 1234){
-        //     return false
-        // }
-        return validator.isNumeric(pin) && validator.isLength(pin, { min: 4, max: 4 });   
-    }
-
-    static strong_pin(pin){
-        if(pin == 1234){
-            return false
-        } 
-
-        return true
     }
 
     static validate_password(password){
@@ -154,20 +124,6 @@ class Security {
         max = Number("1" + "0".repeat(max));
         return crypto.randomInt(2, max);
     }
-
-    // static generateUniqueId (length) {
-    //     const characters = '0123456789'
-    
-    //     let otp = ''
-    //     for (let o=0; o<length; o++) {
-    //         const getRandomIndex = Math.floor(Math.random() * characters.length)
-    //         otp += characters[getRandomIndex]
-    //     }
-    
-    //     return otp
-    // }
-    
-    
     
 }
 

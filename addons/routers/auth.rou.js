@@ -71,9 +71,9 @@ router.post('/register', async(req,res) => {
 //LOGOUT
 router.get('/logout', async(req,res) => {
     let response = General.initial_response('invalid_input');
-    this.response['status'] = true;
-    this.response['message'] = "Success";
-    this.response['message_detail'] = "Log out successful";
+    response['status'] = true;
+    response['message'] = "Success";
+    response['message_detail'] = "Log out successful";
 
     // unset cookie
     res.clearCookie('token');
