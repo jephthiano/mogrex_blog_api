@@ -12,7 +12,7 @@ router.post('/create', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
-    const error = await Validator.login(req.data.input);
+    const error = await Validator.create_blog(req.data.input);
 
     //if there is no error
     if (!error.status) {

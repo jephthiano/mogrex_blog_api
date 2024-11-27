@@ -1,11 +1,11 @@
 const DB = require(MISC_CON + 'database.cla');
-const UserSch = require(SCHEMA + 'user.schema');
+const BlogSch = require(SCHEMA + 'blog.schema');
 
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
 
-class Auth {
-    static login (inputs){
+class Blog {
+    static create_blog (inputs){
         let error = {}
         let errRes = { status: true, data: {} }
         const { login_id, password } = inputs;
@@ -88,4 +88,4 @@ class Auth {
     }
 }
 
-module.exports = Auth;
+module.exports = Blog;
