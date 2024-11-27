@@ -27,5 +27,16 @@ router.post('/create', async(req,res) => {
     return;
 })
 
+//DELETE
+router.delete('/delete', async(req,res) => {
+    let response = General.initial_response('invalid_input');
+
+    const PostIns = new Post(req, res);
+    response = await PostIns.deletePost();
+    
+    Security.returnResponse(res, req, response);
+    return;
+})
+
 
 module.exports = router;

@@ -29,7 +29,38 @@ class Post {
     }
 
     // CREATE POST
-    async createPost(regType) {
+    async createPost() {
+        this.response['message_detail'] = "Post could not be created at the moment";
+        try {
+            //setting created_by into this.input
+            this.input.created_by = this.userData.id;
+            //save into db
+            let result = await PostSch.create(this.input);
+
+            // data is stored
+            if (result) {
+                //get postData
+                const postData = await PostSch.findOne({_id : result.id}, '-password -_id -__v');
+
+                if (postData) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Post successfully created";
+                    this.response['responseData'] = postData;
+                    
+                    
+                }
+            }
+        } catch (err) {
+            Post.logError('Create Post [POST CLASS]', err);
+        }
+
+        return this.response;
+    }
+
+    // CREATE POST
+    async deleteePost() {
         this.response['message_detail'] = "Post could not be created at the moment";
         try {
             //setting created_by into this.input

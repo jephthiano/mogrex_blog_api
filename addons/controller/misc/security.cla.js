@@ -10,7 +10,7 @@ const key = process.env.ENC_KEY;
 const iv = process.env.ENC_IV;
 const method = process.env.ENC_METHOD;// Encryption method
 const cost = 10;
-const enc_array = ['general', 'email', 'last_name', 'first_name', 'username', 'mobile_number'];
+const enc_array = ['general'];
 
 class Security {
 
@@ -80,9 +80,6 @@ class Security {
         if(type === 'email') result = validator.isEmail(data);  
         if(type === 'name') result = validator.isAlpha(data) && validator.isLength(data, { min: 1, max: 50 });    
         if(type === 'username') result = validator.isAlpha(data) && validator.isLength(data, { min: 5, max: 10 });    
-        if(type === 'otp_code') result = validator.isNumeric(data) && validator.isLength(data, { min: 6, max: 6 });   
-        if(type === 'mobile_number') result = validator.isNumeric(data) && validator.isLength(data, { min: 11, max: 11 });    
-        
         return result;
     }
 
