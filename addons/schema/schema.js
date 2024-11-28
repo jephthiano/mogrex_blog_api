@@ -146,7 +146,7 @@ Comment.init(
 );
 
 
-//REPLIES SCHEMA
+//REPLY SCHEMA
 class Reply extends Model {}
 Reply.init(
   {
@@ -170,15 +170,11 @@ Reply.init(
   },
 );
 
-//REPLIES SCHEMA
+//LIKE SCHEMA
 class Like extends Model {}
 Like.init(
   {
     type: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    like_by: {
       type: DataTypes.STRING,
       allowNull: false,
     },
