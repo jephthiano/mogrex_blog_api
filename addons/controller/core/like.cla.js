@@ -29,9 +29,9 @@ class Like {
     }
 
     
-    // LIKE
-    async like() {
-        this.response['message_detail'] = "Request not process";
+    // LIKE / UNLIKE
+    async like_unlike(request_type) {
+        this.response['message_detail'] = "Request not processed";
         try {
             const { id: content_id, type } = this.input;
             const { id: like_by } = this.userData;
@@ -56,23 +56,34 @@ class Like {
                 }
 
 
-                console.log(con_id);return
                 //check if either of Post, comment or Reply is set
                 if (con_id) {
-                    //check if like exists;
-                    const exists = await LikeSch.findOne({ where: queryData });
-                    if (exists) {
-                        this.response['message_detail'] = `You have already liked this ${typeRes}`;
+                    //if request_type is like [insert] else [delete]
+                    if (request_type === 'like') {
+                        //check if like exists;
+                        const exists = await LikeSch.findOne({ where: queryData });
+                        if (exists) {
+                            this.response['message_detail'] = `You have already liked this ${typeRes}`;
+                        } else {
+                            //insert into the db
+                            const storeLike = await LikeSch.create( queryData );
+                            if (storeLike) {
+                                //set response
+                                this.response['status'] = true;
+                                this.response['message'] = "Success";
+                                this.response['message_detail'] = `${typeRes} successfully liked`;
+                            }
+                        }
                     } else {
-                        //insert into the db
-                        const storeLike = await LikeSch.create( queryData );
-                        if (storeLike) {
+                        const deleteLike = await LikeSch.destroy({ where: queryData });
+                        if (deleteLike) {
                             //set response
                             this.response['status'] = true;
                             this.response['message'] = "Success";
-                            this.response['message_detail'] = `${typeRes} successfully liked`;
+                            this.response['message_detail'] = `${typeRes} successfully unlike`;
                         }
                     }
+
                 }
 
             }
@@ -85,7 +96,7 @@ class Like {
 
     // UNLIKE
     async unlike() {
-        this.response['message_detail'] = "Request not process";
+        this.response['message_detail'] = "Request not processed";
         try {
             const { id, type } = this.input;
             const { id: like_by } = this.userData;

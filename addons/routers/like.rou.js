@@ -11,7 +11,7 @@ router.post('/', async(req, res) => {
     let response = General.initial_response('invalid_input');
 
     const LikeIns = new Like(req, res);
-    response = await LikeIns.like();
+    response = await LikeIns.like_unlike('like');
     
     Security.returnResponse(res, req, response);
     return;
@@ -22,7 +22,7 @@ router.delete('/unlike', async(req, res) => {
     let response = General.initial_response('invalid_input');
 
     const LikeIns = new Like(req, res);
-    response = await LikeIns.unlike();
+    response = await LikeIns.like_unlike('unlike');
     
     Security.returnResponse(res, req, response);
     return;
