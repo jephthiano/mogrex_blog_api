@@ -48,8 +48,8 @@ router.post('/register', async(req,res) => {
 
     //if there is no error
     if(!error.status){
-        // const AuthIns = new Auth(req, res);
-        // response = await AuthIns.register();
+        const AuthIns = new Auth(req, res);
+        response = await AuthIns.register();
 
         if (response.status) {
             //set auth [with jwt and cookies]

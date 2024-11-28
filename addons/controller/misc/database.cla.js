@@ -29,7 +29,7 @@ class Database {
     static async seqDBConn() {
         const sequelize = new Sequelize('mogrex_blog', 'root', 'jephthahJEHOVAHgod332$', {
             host: 'localhost',
-            dialect: 'mariadb'
+            dialect: 'mysql'
         });
 
         try {
