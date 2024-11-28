@@ -1,9 +1,9 @@
-const { Post: PostSch } = require(SCHEMA + 'schema');
+const { Post: PostSch, Comment: CommentSch } = require(SCHEMA + 'schema');
 
 const General = require(MISC_CON + 'general.cla');
 
 
-class Post {
+class Comment {
     constructor(req, res) {
         this.req = req;
         this.res = res;
@@ -27,33 +27,34 @@ class Post {
         General.log(type,data,'error');
     }
 
-    // CREATE POST
-    async createPost() {
-        this.response['message_detail'] = "Post could not be created at the moment";
+    // CREATE COMMENT
+    async addComment() {
+        this.response['message_detail'] = "Comment could not be added at the moment";
         try {
-            //setting UserId into this.input
+            
+            //setting UserId, postID into this.input
             this.input.UserId = this.userData.id;
+            this.input.PostId = this.postData.id;
+            
             //save into db
-            let result = await PostSch.create(this.input);
-
-            // data is stored
+            let result = await CommentSch.create(this.input);
             if (result) {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
-                this.response['message_detail'] = "Post successfully created";
+                this.response['message_detail'] = "Comment successfully added";
                 this.response['responseData'] = result.dataValues;
             }
         } catch (err) {
-            Post.logError('Create Post [POST CLASS]', err);
+            Post.logError('Create Comment [Comment CLASS]', err);
         }
 
         return this.response;
     }
 
-    // UPDATE POST
-    async updatePost() {
-        this.response['message_detail'] = "Post could not be updated, you may not be eligible to update post or the post is not available";
+    // UPDATE COMMENT
+    async updateComment() {
+        this.response['message_detail'] = "Comment could not be updated, you may not be eligible to update comment or the comment is not available";
         try {
             const { post_id } = this.input;
             const { id: UserId } = this.userData;
@@ -69,10 +70,10 @@ class Post {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
-                this.response['message_detail'] = "Post successfully updated";
+                this.response['message_detail'] = "Comment successfully updated";
             }
         } catch (err) {
-            Post.logError('Update Post [POST CLASS]', err);
+            Post.logError('Update Comment [COMMENT CLASS]', err);
         }
 
         return this.response;
@@ -80,13 +81,13 @@ class Post {
 
     // DELETE POST
     async deletePost() {
-        this.response['message_detail'] = "Post could not be deleted, you may not be eligible to delete post or the post is not available";
+        this.response['message_detail'] = "Comment could not be deleted, you may not be eligible to delete comment or the comment is not available";
         try {
-            const { post_id } = this.input;
+            const { comment_id, post_id: PostId } = this.input;
             const { id: UserId } = this.userData;
 
             //find one and delete if valid
-            const deletePost = await PostSch.destroy({ where: { post_id, UserId } });
+            const deletePost = await PostSch.destroy({ where: { comment_id, PostId, UserId } });
 
             if (deletePost) {
                 //set response
@@ -102,4 +103,4 @@ class Post {
     }
 }
 
-module.exports = Post;
+module.exports = Comment;

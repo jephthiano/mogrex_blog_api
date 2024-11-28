@@ -94,7 +94,7 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: "post" + Security.generateUniqueId(10),
+      defaultValue: Security.generateUniqueId(10),
     },
     title: {
       type: DataTypes.STRING,
@@ -133,7 +133,7 @@ Comment.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: "comment" + Security.generateUniqueId(10),
+      defaultValue: Security.generateUniqueId(10),
     },
     content: {
       type: DataTypes.STRING,
@@ -146,7 +146,6 @@ Comment.init(
     modelName: 'Comment', // We need to choose the model name
     tableName: 'comments', //table name
     timestamps: true, //enable timestamps
-    updatedAt: false // disable updated_at
   },
 );
 
@@ -160,7 +159,7 @@ Reply.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: "reply" + Security.generateUniqueId(10),
+      defaultValue: Security.generateUniqueId(10),
     },
     content: {
       type: DataTypes.STRING,
@@ -173,7 +172,6 @@ Reply.init(
     modelName: 'Reply', // We need to choose the model name
     tableName: 'replies', //table name
     timestamps: true, //enable timestamps
-    updatedAt: false // disable updated_at
   },
 );
 
@@ -181,13 +179,6 @@ Reply.init(
 class Like extends Model {}
 Like.init(
   {
-    // Model attributes are defined here
-    like_id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      defaultValue: "reply" + Security.generateUniqueId(10),
-    },
     type: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -235,7 +226,7 @@ Comment.hasMany(Reply, { as: 'commentLike' });
 Reply.belongsTo(User, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
 Reply.belongsTo(Comment, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
 
-Reply.hasMany(Likes, { as: 'replyLike' });
+Reply.hasMany(Like, { as: 'replyLike' });
 
 //like relationship [upper: user, post, comment and reply]
 Like.belongsTo(User, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })

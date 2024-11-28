@@ -8,9 +8,9 @@ class Post {
         let error = {}
         let errRes = { status: true, data: {} }
         let { title, content, tags } = inputs;
-        let { id: created_by } = userData;
+        let { id: UserId } = userData;
         
-        const title_exists = await PostSch.findOne({ where: { title, created_by } });
+        const title_exists = await PostSch.findOne({ where: { title, UserId } });
 
         //check if title is empty
         if(!title || General.isEmptyString(title)){
@@ -43,7 +43,6 @@ class Post {
         let error = {}
         let errRes = { status: true, data: {} }
         let { title, content, tags } = inputs;
-        let { id: created_by } = userData;
 
         //check if title is empty
         if(!title || General.isEmptyString(title)){
