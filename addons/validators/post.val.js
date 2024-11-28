@@ -39,7 +39,7 @@ class Post {
         return errRes;
     }
 
-    static async update_post (inputs, userData){
+    static async update_post (inputs){
         let error = {}
         let errRes = { status: true, data: {} }
         let { title, content, tags } = inputs;

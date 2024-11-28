@@ -32,7 +32,7 @@ router.put('/update', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
-    const error = await Validator.update_post(req.data.input, req.data.userData);
+    const error = await Validator.update_post(req.data.input);
 
     //if there is no error
     if (!error.status) {

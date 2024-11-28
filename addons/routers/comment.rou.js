@@ -5,14 +5,14 @@ const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
 
 const Comment = require(CORE_CON + 'comment.cla');
-const Validator = require(VALIDATORS + 'content.val');
+const Validator = require(VALIDATORS + 'comment.val');
 
 //CREATE
 router.post('/create', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
-    const error = await Validator.content(req.data.input, req.data.userData);
+    const error = await Validator.comment(req.data.input);
 
     //if there is no error
     if (!error.status) {
@@ -32,7 +32,7 @@ router.put('/update', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
-    const error = await Validator.content(req.data.input, req.data.userData);
+    const error = await Validator.comment(req.data.input);
 
     //if there is no error
     if (!error.status) {
