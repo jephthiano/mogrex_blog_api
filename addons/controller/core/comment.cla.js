@@ -67,8 +67,7 @@ class Comment {
 
             //save into db
             let updateCommentData = await CommentSch.update(
-                this.input,
-                { where: { comment_id, UserId } },
+                this.input, { where: { comment_id, UserId } },
             );
 
             // data is stored
