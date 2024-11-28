@@ -34,11 +34,10 @@ class Comment {
         try {
             //get postData
             const PostId = await DB.findSingleValue('Post', 'post_id', this.input.post_id, 'id');
-            console.log(PostId);return
             if (PostId) {
                 //setting UserId, postID into this.input
                 this.input.UserId = this.userData.id;
-                this.input.PostId = this.input.PostId;
+                this.input.PostId = PostId;
                 this.input.comment_id = Security.generateUniqueId(10);
                 
                 //save into db
