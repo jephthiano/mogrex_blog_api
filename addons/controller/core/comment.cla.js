@@ -90,16 +90,19 @@ class Comment {
         try {
             const { comment_id } = this.input;
             const { id: UserId } = this.userData;
-
-            //find one and delete if valid
-            const deleteComment = await CommentSch.destroy({ where: { comment_id, UserId } });
-
-            if (deleteComment) {
-                //set response
-                this.response['status'] = true;
-                this.response['message'] = "Success";
-                this.response['message_detail'] = "Comment successfully deleted";
+            
+            if (comment_id) {
+                //find one and delete if valid
+                const deleteComment = await CommentSch.destroy({ where: { comment_id, UserId } });
+    
+                if (deleteComment) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Comment successfully deleted";
+                }
             }
+
         } catch (err) {
             Comment.logError('Delete Comment [COMMENT CLASS]', err);
         }

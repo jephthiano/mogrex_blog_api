@@ -87,14 +87,16 @@ class Reply {
             const { reply_id } = this.input;
             const { id: UserId } = this.userData;
 
-            //find one and delete if valid
-            const deleteReply = await ReplySch.destroy({ where: { reply_id, UserId } });
-
-            if (deleteReply) {
-                //set response
-                this.response['status'] = true;
-                this.response['message'] = "Success";
-                this.response['message_detail'] = "Comment successfully deleted";
+            if (reply_id) {
+                //find one and delete if valid
+                const deleteReply = await ReplySch.destroy({ where: { reply_id, UserId } });
+    
+                if (deleteReply) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Comment successfully deleted";
+                }
             }
         } catch (err) {
             Reply.logError('Delete Reply [REPLY CLASS]', err);

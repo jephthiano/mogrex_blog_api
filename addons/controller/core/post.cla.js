@@ -86,14 +86,16 @@ class Post {
             const { post_id } = this.input;
             const { id: UserId } = this.userData;
 
-            //find one and delete if valid
-            const deletePost = await PostSch.destroy({ where: { post_id, UserId } });
-
-            if (deletePost) {
-                //set response
-                this.response['status'] = true;
-                this.response['message'] = "Success";
-                this.response['message_detail'] = "Post successfully deleted";
+            if (post_id) {
+                //find one and delete if valid
+                const deletePost = await PostSch.destroy({ where: { post_id, UserId } });
+    
+                if (deletePost) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Post successfully deleted";
+                }
             }
         } catch (err) {
             Post.logError('Delete Post [POST CLASS]', err);
