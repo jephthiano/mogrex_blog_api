@@ -77,7 +77,7 @@ class Reply {
                     //set response
                     this.response['status'] = true;
                     this.response['message'] = "Success";
-                    this.response['message_detail'] = "Comment successfully updated";
+                    this.response['message_detail'] = "Comment successfully updated ";
                 }
             }
 
