@@ -7,11 +7,22 @@ const Security = require(MISC_CON + 'security.cla');
 const Like = require(CORE_CON + 'like.cla');
 
 //LIKE POST
-router.delete('/', async(req, res) => {
+router.post('/', async(req, res) => {
     let response = General.initial_response('invalid_input');
 
     const LikeIns = new Like(req, res);
-    response = await LikeIns.ProcessLike();
+    response = await LikeIns.like();
+    
+    Security.returnResponse(res, req, response);
+    return;
+})
+
+//LIKE POST
+router.delete('/unlike', async(req, res) => {
+    let response = General.initial_response('invalid_input');
+
+    const LikeIns = new Like(req, res);
+    response = await LikeIns.unlike();
     
     Security.returnResponse(res, req, response);
     return;

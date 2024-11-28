@@ -96,7 +96,6 @@ class Reply {
             const { id: UserId } = this.userData;
             
             if (reply_id) {
-                console.log(reply_id)
                 //find one and delete if valid
                 const deleteReply = await ReplySch.destroy({ where: { reply_id, UserId } });
                 if (deleteReply) {
