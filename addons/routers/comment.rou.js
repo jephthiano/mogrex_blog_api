@@ -16,8 +16,8 @@ router.post('/create', async(req,res) => {
 
     //if there is no error
     if (!error.status) {
-        const PostIns = new Post(req, res);
-        response = await PostIns.addComment();
+        const CommentIns = new Comment(req, res);
+        response = await CommentIns.addComment();
     }else{
         //set the error in response data
         response['errorData'] = error.data;
@@ -32,12 +32,12 @@ router.put('/update', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
-    const error = await Validator.update_post(req.data.input, req.data.userData);
+    const error = await Validator.content(req.data.input, req.data.userData);
 
     //if there is no error
     if (!error.status) {
-        const PostIns = new Post(req, res);
-        response = await PostIns.updatePost();
+        const CommentIns = new Comment(req, res);
+        response = await CommentIns.updateComment();
     }else{
         //set the error in response data
         response['errorData'] = error.data;
@@ -51,8 +51,8 @@ router.put('/update', async(req,res) => {
 router.delete('/delete', async(req, res) => {
     let response = General.initial_response('invalid_input');
 
-    const PostIns = new Post(req, res);
-    response = await PostIns.deletePost();
+    const CommentIns = new Comment(req, res);
+    response = await CommentIns.deleteComment();
     
     Security.returnResponse(res, req, response);
     return;
