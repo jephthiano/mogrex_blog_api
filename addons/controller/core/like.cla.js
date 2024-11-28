@@ -93,32 +93,6 @@ class Like {
 
         return this.response;
     }
-
-    // UNLIKE
-    async unlike() {
-        this.response['message_detail'] = "Request not processed";
-        try {
-            const { id, type } = this.input;
-            const { id: like_by } = this.userData;
-
-            if (id && this.typeArray.includes(type)) {
-                const typeRes = (type === 'post') ? "Post" : "Comment";
-
-                //delete in  db
-                const deleteLike = await LikeSch.destroy({ where: { type, like_by } });
-                if (deleteLike) {
-                    //set response
-                    this.response['status'] = true;
-                    this.response['message'] = "Success";
-                    this.response['message_detail'] = `${typeRes} successfully unlike`;
-                }
-            }
-        } catch (err) {
-            Like.logError('UnLike [LIKE CLASS]', err);
-        }
-
-        return this.response;
-    }
 }
 
 module.exports = Like;
