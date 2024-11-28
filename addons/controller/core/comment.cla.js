@@ -33,7 +33,7 @@ class Comment {
         this.response['message_detail'] = "Comment could not be added at the moment";
         try {
             //get postData
-            const PostId = await DB.findSingleValue('Post', 'post', this.input.post_id, 'id');
+            const PostId = await DB.findSingleValue('Post', 'post_id', this.input.post_id, 'id');
             console.log(PostId);return
             if (PostId) {
                 //setting UserId, postID into this.input
