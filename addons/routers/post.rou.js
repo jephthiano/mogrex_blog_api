@@ -7,6 +7,28 @@ const Security = require(MISC_CON + 'security.cla');
 const Post = require(CORE_CON + 'post.cla');
 const Validator = require(VALIDATORS + 'post.val');
 
+//SEARCH
+router.get('/search', async(req,res) => {
+    let response = General.initial_response('invalid_input');
+
+    const PostIns = new Post(req, res);
+    response = await PostIns.searchPost();
+    
+    Security.returnResponse(res, req, response);
+    return;
+})
+
+//FILTER
+router.get('/filter', async(req,res) => {
+    let response = General.initial_response('invalid_input');
+
+    const PostIns = new Post(req, res);
+    response = await PostIns.searchPost();
+    
+    Security.returnResponse(res, req, response);
+    return;
+})
+
 //CREATE
 router.post('/create', async(req,res) => {
     let response = General.initial_response('invalid_input');

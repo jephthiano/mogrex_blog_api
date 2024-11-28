@@ -61,13 +61,13 @@ User.init(
       },
     },
     user_level: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.ENUM,
+      values: [1, 2, 3],
       defaultValue: 1
     },
     status: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.ENUM,
+      values: ['active', 'suspended'],
       defaultValue: "active"
     },
   },
@@ -107,8 +107,8 @@ Post.init(
       allowNull: false,
     },
     status: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.ENUM,
+      values: ['active', 'suspended'],
       defaultValue: "active"
     },
   },
@@ -118,6 +118,9 @@ Post.init(
     modelName: 'Post', // We need to choose the model name
     tableName: 'posts', //table name
     timestamps: true, //enable timestamps
+    index: [
+      { fields: ['title', 'content', 'tags'] }
+    ]
   },
 );
 
