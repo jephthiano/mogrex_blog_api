@@ -47,7 +47,7 @@ class Comment {
                 this.response['responseData'] = result.dataValues;
             }
         } catch (err) {
-            Post.logError('Create Comment [COMMENT CLASS]', err);
+            Comment.logError('Create Comment [COMMENT CLASS]', err);
         }
 
         return this.response;
@@ -74,30 +74,30 @@ class Comment {
                 this.response['message_detail'] = "Comment successfully updated";
             }
         } catch (err) {
-            Post.logError('Update Comment [COMMENT CLASS]', err);
+            Comment.logError('Update Comment [COMMENT CLASS]', err);
         }
 
         return this.response;
     }
 
-    // DELETE POST
-    async deletePost() {
+    // DELETE COMMENT
+    async deleteComment() {
         this.response['message_detail'] = "Comment could not be deleted, you may not be eligible to delete comment or the comment is not available";
         try {
             const { comment_id } = this.input;
             const { id: UserId } = this.userData;
 
             //find one and delete if valid
-            const deletePost = await PostSch.destroy({ where: { comment_id, UserId } });
+            const deleteComment = await CommentSch.destroy({ where: { comment_id, UserId } });
 
-            if (deletePost) {
+            if (deleteComment) {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
                 this.response['message_detail'] = "Comment successfully deleted";
             }
         } catch (err) {
-            Post.logError('Delete Comment [COMMENT CLASS]', err);
+            Comment.logError('Delete Comment [COMMENT CLASS]', err);
         }
 
         return this.response;

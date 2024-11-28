@@ -47,27 +47,27 @@ class Reply {
                 this.response['responseData'] = result.dataValues;
             }
         } catch (err) {
-            Post.logError('Create Reply [REPLY CLASS]', err);
+            Reply.logError('Create Reply [REPLY CLASS]', err);
         }
 
         return this.response;
     }
 
-    // UPDATE COMMENT
-    async updateComment() {
+    // UPDATE REPLY
+    async updateReply() {
         this.response['message_detail'] = "Comment could not be updated, you may not be eligible to update comment or the comment is not available";
         try {
             const { reply_id } = this.input;
             const { id: UserId } = this.userData;
 
             //save into db
-            let updatePostData = await PostSch.update(
+            let updateReplyData = await ReplySch.update(
                 this.input,
                 { where: { reply_id, UserId } },
             );
 
             // data is stored
-            if (updatePostData[0]) {
+            if (updateReplyData[0]) {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
@@ -80,24 +80,24 @@ class Reply {
         return this.response;
     }
 
-    // DELETE POST
-    async deletePost() {
+    // DELETE REPLY
+    async deleteReply() {
         this.response['message_detail'] = "Comment could not be deleted, you may not be eligible to delete comment or the comment is not available";
         try {
             const { reply_id } = this.input;
             const { id: UserId } = this.userData;
 
             //find one and delete if valid
-            const deletePost = await PostSch.destroy({ where: { reply_id, UserId } });
+            const deleteReply = await ReplySch.destroy({ where: { reply_id, UserId } });
 
-            if (deletePost) {
+            if (deleteReply) {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
                 this.response['message_detail'] = "Comment successfully deleted";
             }
         } catch (err) {
-            Post.logError('Delete Reply [REPLY CLASS]', err);
+            Reply.logError('Delete Reply [REPLY CLASS]', err);
         }
 
         return this.response;
