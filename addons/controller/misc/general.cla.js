@@ -55,7 +55,7 @@ class General {
 
     //check for invalid data
     static isValidData (data){
-        if(data == 'undefined' || data == undefined || data === null || data === ''){
+        if(data == 'undefined' || data == undefined || data === null || data === '' || data === false){
             return false;
         }
         return data;

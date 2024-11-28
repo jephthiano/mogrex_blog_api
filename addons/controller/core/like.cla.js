@@ -54,9 +54,9 @@ class Like {
                     queryData = { type, like_by, ReplyId }
                 }
 
-                console.log(type);return
+                console.log(PostId);return
                 //check if either of Post, comment or Reply is set
-                if (PostId || CommentId || ReplyId) {
+                if (General.isValidData(PostId) || General.isValidData(CommentId) || General.isValidData(ReplyId)) {
                     //check if like exists;
                     const exists = await LikeSch.findOne({ where: queryData });
                     if (exists) {
