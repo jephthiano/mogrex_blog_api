@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Sequelize } = require('sequelize');
 
 const General = require(MISC_CON + 'general.cla');
 const User = require(SCHEMA + 'user.schema');
@@ -13,7 +14,32 @@ class Database {
         General.log(type,data,'error')
     }
 
+    
     static async dbConn (){
+        await mongoose.connect(process.env.MONGODB_URI)
+        .then((conn) =>{
+            console.log("Database connection successful");
+        })
+        .catch((err) => {
+            Database.logError("DBconn [DATABASE CLASS]",err);
+            console.log("Error occurred while connecting to database")
+        })
+    }
+
+    static async seqDBConn() {
+        const sequelize = new Sequelize('database', 'username', 'password', {
+            host: 'localhost',
+            dialect: 'mysql'
+        });
+
+        try {
+            await sequelize.authenticate();
+        console.log('Database connection has been established successfully.');
+        } catch (error) {
+            console.error('Unable to connect to the database:', error);
+        }
+        
+
         await mongoose.connect(process.env.MONGODB_URI)
         .then((conn) =>{
             console.log("Database connection successful");

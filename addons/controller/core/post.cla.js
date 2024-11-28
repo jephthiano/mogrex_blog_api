@@ -67,7 +67,7 @@ class Post {
             const { id: created_by } = this.userData;
 
             //save into db
-            const updatePostData = await PostSch.findOneAndUpdate(
+            let updatePostData = await PostSch.findOneAndUpdate(
                 { post_id, created_by },
                 this.input,
                 {new: true}
@@ -75,14 +75,10 @@ class Post {
 
             // data is stored
             if (updatePostData) {
-                //unset some keys
-                delete updatePostData['id']
-                delete updatePostData['__v']
-
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
-                this.response['message_detail'] = "Post successfully uodated";
+                this.response['message_detail'] = "Post successfully updated";
                 this.response['responseData'] = updatePostData;  
                   
             }
