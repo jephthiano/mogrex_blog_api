@@ -61,6 +61,7 @@ const auth = require(ROUTER + 'auth.rou');
 const post = require(ROUTER + 'post.rou');
 const comment = require(ROUTER + 'comment.rou');
 const reply = require(ROUTER + 'reply.rou');
+const like = require(ROUTER + 'like.rou');
 
 // SET INPUT DATA MIDDLEWARE
 app.use(Request.setInputData);
@@ -74,6 +75,7 @@ app.use("/auth",auth);  // auth route
 app.use("/post", Token.verifyToken, post);  // post route
 app.use("/comment", Token.verifyToken, comment);  // comment route
 app.use("/reply", Token.verifyToken, reply);  // reply route
+app.use("/like", Token.verifyToken, like);  // like route
 
 // if no url is matched
 app.use('*', (req, res) => {
