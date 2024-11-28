@@ -40,23 +40,25 @@ class Like {
             if (content_id && this.typeArray.includes(type)) {
                 // set the type response based on type
                 const typeRes = (type === 'post') ? "Post" : "Comment";
-                let queryData
+                let queryData = {}
+                let con_id = false;
 
                 //set the query data based on type
                 if (type === 'post') {
-                    const PostId = await DB.findSingleValue('Post', 'post_id', content_id, 'id');
-                    queryData = { type, like_by, PostId }
+                     con_id = await DB.findSingleValue('Post', 'post_id', content_id, 'id');
+                    queryData = { type, like_by, PostId: con_id }
                 } else if (type === 'comment') {
-                    const CommentId = await DB.findSingleValue('Comment', 'comment_id', content_id, 'id');
-                    queryData = { type, like_by, CommentId }
+                    con_id = await DB.findSingleValue('Comment', 'comment_id', content_id, 'id');
+                    queryData = { type, like_by, CommentId: con_id }
                 } else {
-                    const ReplyId = await DB.findSingleValue('Reply', 'reply_id', content_id, 'id');
-                    queryData = { type, like_by, ReplyId }
+                    con_id = await DB.findSingleValue('Reply', 'reply_id', content_id, 'id');
+                    queryData = { type, like_by, ReplyId: con_id }
                 }
 
-                console.log(PostId);return
+
+                console.log(con_id);return
                 //check if either of Post, comment or Reply is set
-                if (General.isValidData(PostId) || General.isValidData(CommentId) || General.isValidData(ReplyId)) {
+                if (con_id) {
                     //check if like exists;
                     const exists = await LikeSch.findOne({ where: queryData });
                     if (exists) {
