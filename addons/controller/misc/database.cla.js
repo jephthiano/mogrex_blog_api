@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Sequelize } = require('sequelize');
 
 const General = require(MISC_CON + 'general.cla');
-const { User } = require(SCHEMA + 'schema');
+const { User, Post, Comment, Reply, Like } = require(SCHEMA + 'schema');
 
 class Database {
 

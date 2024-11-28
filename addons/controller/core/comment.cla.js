@@ -1,5 +1,6 @@
 const { Post: PostSch, Comment: CommentSch } = require(SCHEMA + 'schema');
 
+const DB = require(MISC_CON + 'database.cla');
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
 
@@ -31,21 +32,26 @@ class Comment {
     async addComment() {
         this.response['message_detail'] = "Comment could not be added at the moment";
         try {
-            
-            //setting UserId, postID into this.input
-            this.input.UserId = this.userData.id;
-            this.input.PostId = this.postData.id;
-            this.input.comment_id = Security.generateUniqueId(10);
-            
-            //save into db
-            let result = await CommentSch.create(this.input);
-            if (result) {
-                //set response
-                this.response['status'] = true;
-                this.response['message'] = "Success";
-                this.response['message_detail'] = "Comment successfully added";
-                this.response['responseData'] = result.dataValues;
+            //get postData
+            const PostId = await DB.findSingleValue('Post', 'post', this.input.post_id, 'id');
+            console.log(PostId);return
+            if (PostId) {
+                //setting UserId, postID into this.input
+                this.input.UserId = this.userData.id;
+                this.input.PostId = this.input.PostId;
+                this.input.comment_id = Security.generateUniqueId(10);
+                
+                //save into db
+                let result = await CommentSch.create(this.input);
+                if (result) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Comment successfully added";
+                    this.response['responseData'] = result.dataValues;
+                }
             }
+
         } catch (err) {
             Comment.logError('Create Comment [COMMENT CLASS]', err);
         }
