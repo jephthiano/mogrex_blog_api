@@ -207,24 +207,42 @@ Like.init(
   },
 );
 
-//setting relationships
-Post.belongsTo(User, {
-  foreignKey: "created_by",
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE',
-})
+//SETTINGS RELATIONSHIPS
 
-Comment.belongsTo(Post, {
-  foreignKey: "comment_by",
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE',
-})
+//user relationship [post, comment, reply and like]
+User.hasMany(Post, { as: 'userPost' });
+User.hasMany(Comment, { as: 'userComment' });
+User.hasMany(Reply, { as: 'userReply' });
+User.hasMany(Like, { as: 'userLike' });
 
-Reply.belongsTo(Comment, {
-  foreignKey: "reply_by",
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE',
-})
+
+//post relationship [upper: user] [lower: comment and like]
+Post.belongsTo(User, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+
+Post.hasMany(Comment, { as: 'postComment' });
+Post.hasMany(Like, { as: 'postLike' });
+
+
+//comment relationship [upper: user and post] [lower: reply and like]
+Comment.belongsTo(User, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
+Comment.belongsTo(Post, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
+
+Comment.hasMany(Reply, { as: 'commentReply' });
+Comment.hasMany(Reply, { as: 'commentLike' });
+
+
+//reply relationship  [upper: user and comment] [lower: like]
+Reply.belongsTo(User, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
+Reply.belongsTo(Comment, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
+
+Reply.hasMany(Likes, { as: 'replyLike' });
+
+//like relationship [upper: user, post, comment and reply]
+Like.belongsTo(User, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
+Like.belongsTo(Post, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
+Like.belongsTo(Comment, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
+Like.belongsTo(Reply, { onDelete: 'CASCADE', onUpdate: 'CASCADE', })
+
 
 module.exports = {
   User, Post, Comment, Reply, Like
