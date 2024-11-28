@@ -59,19 +59,22 @@ class Post {
             const { post_id } = this.input;
             const { id: UserId } = this.userData;
 
-            //save into db
-            let updatePostData = await PostSch.update(
-                this.input,
-                { where: { post_id, UserId } },
-            );
-
-            // data is stored
-            if (updatePostData[0]) {
-                //set response
-                this.response['status'] = true;
-                this.response['message'] = "Success";
-                this.response['message_detail'] = "Post successfully updated";
+            if (post_id) {
+                //save into db
+                let updatePostData = await PostSch.update(
+                    this.input,
+                    { where: { post_id, UserId } },
+                );
+    
+                // data is stored
+                if (updatePostData[0]) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Post successfully updated";
+                }
             }
+
         } catch (err) {
             Post.logError('Update Post [POST CLASS]', err);
         }

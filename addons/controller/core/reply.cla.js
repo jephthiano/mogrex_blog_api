@@ -1,5 +1,6 @@
 const { Comment: CommentSch, Reply: ReplySch } = require(SCHEMA + 'schema');
 
+const DB = require(MISC_CON + 'database.cla');
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
 
@@ -31,21 +32,25 @@ class Reply {
     async addReply() {
         this.response['message_detail'] = "Comment could not be added at the moment";
         try {
-            
-            //setting UserId, postID into this.input
-            this.input.UserId = this.userData.id;
-            this.input.CommentId = this.commentData.id;
-            this.input.reply_id = Security.generateUniqueId(10);
-            
-            //save into db
-            let result = await ReplySch.create(this.input);
-            if (result) {
-                //set response
-                this.response['status'] = true;
-                this.response['message'] = "Success";
-                this.response['message_detail'] = "Comment successfully added";
-                this.response['responseData'] = result.dataValues;
+            //get commentData
+            const CommentId = await DB.findSingleValue('Comment', 'comment_id', this.input.comment_id, 'id');
+            if (CommentId) {
+                //setting UserId, postID into this.input
+                this.input.UserId = this.userData.id;
+                this.input.CommentId = CommentId;
+                this.input.reply_id = Security.generateUniqueId(10);
+                
+                //save into db
+                let result = await ReplySch.create(this.input);
+                if (result) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Comment successfully added";
+                    this.response['responseData'] = result.dataValues;
+                }
             }
+            
         } catch (err) {
             Reply.logError('Create Reply [REPLY CLASS]', err);
         }
@@ -60,19 +65,22 @@ class Reply {
             const { reply_id } = this.input;
             const { id: UserId } = this.userData;
 
-            //save into db
-            let updateReplyData = await ReplySch.update(
-                this.input,
-                { where: { reply_id, UserId } },
-            );
-
-            // data is stored
-            if (updateReplyData[0]) {
-                //set response
-                this.response['status'] = true;
-                this.response['message'] = "Success";
-                this.response['message_detail'] = "Comment successfully updated";
+            if (reply_id) {
+                //save into db
+                let updateReplyData = await ReplySch.update(
+                    this.input,
+                    { where: { reply_id, UserId } },
+                );
+    
+                // data is stored
+                if (updateReplyData[0]) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Comment successfully updated";
+                }
             }
+
         } catch (err) {
             Post.logError('Update Reply [COMMENT CLASS]', err);
         }
@@ -86,7 +94,7 @@ class Reply {
         try {
             const { reply_id } = this.input;
             const { id: UserId } = this.userData;
-
+            
             if (reply_id) {
                 //find one and delete if valid
                 const deleteReply = await ReplySch.destroy({ where: { reply_id, UserId } });

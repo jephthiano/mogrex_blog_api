@@ -65,18 +65,21 @@ class Comment {
             const { comment_id } = this.input;
             const { id: UserId } = this.userData;
 
-            //save into db
-            let updateCommentData = await CommentSch.update(
-                this.input, { where: { comment_id, UserId } },
-            );
-
-            // data is stored
-            if (updateCommentData[0]) {
-                //set response
-                this.response['status'] = true;
-                this.response['message'] = "Success";
-                this.response['message_detail'] = "Comment successfully updated";
+            if (comment_id) {
+                //save into db
+                let updateCommentData = await CommentSch.update(
+                    this.input, { where: { comment_id, UserId } },
+                );
+    
+                // data is stored
+                if (updateCommentData[0]) {
+                    //set response
+                    this.response['status'] = true;
+                    this.response['message'] = "Success";
+                    this.response['message_detail'] = "Comment successfully updated";
+                }
             }
+
         } catch (err) {
             Comment.logError('Update Comment [COMMENT CLASS]', err);
         }
