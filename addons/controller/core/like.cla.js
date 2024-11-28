@@ -14,7 +14,7 @@ class Like {
         this.response = {
             status:false,
             message: "failed",
-            message_detail: "Request failed",
+            messageDetail: "Request failed",
             responseData:{},
             errorData:{}
         }
@@ -31,7 +31,7 @@ class Like {
     
     // LIKE / UNLIKE
     async like_unlike(request_type) {
-        this.response['message_detail'] = "Request not processed";
+        this.response['messageDetail'] = "Request not processed";
         try {
             const { id: content_id, type } = this.input;
             const { id: like_by } = this.userData;
@@ -63,7 +63,7 @@ class Like {
                         //check if like exists;
                         const exists = await LikeSch.findOne({ where: queryData });
                         if (exists) {
-                            this.response['message_detail'] = `You have already liked this ${typeRes}`;
+                            this.response['messageDetail'] = `You have already liked this ${typeRes}`;
                         } else {
                             //insert into the db
                             const storeLike = await LikeSch.create( queryData );
@@ -71,7 +71,7 @@ class Like {
                                 //set response
                                 this.response['status'] = true;
                                 this.response['message'] = "Success";
-                                this.response['message_detail'] = `${typeRes} successfully liked`;
+                                this.response['messageDetail'] = `${typeRes} successfully liked`;
                             }
                         }
                     } else {
@@ -80,7 +80,7 @@ class Like {
                             //set response
                             this.response['status'] = true;
                             this.response['message'] = "Success";
-                            this.response['message_detail'] = `${typeRes} successfully unlike`;
+                            this.response['messageDetail'] = `${typeRes} successfully unlike`;
                         }
                     }
 

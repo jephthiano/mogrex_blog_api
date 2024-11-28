@@ -55,8 +55,8 @@ class Token {
         } else {
             const status = "invalid";
             const message = "Failed";
-            const message_detail = "Unauthorized request/connection";
-            let rawResponse = {status, message, message_detail};
+            const messageDetail = "Unauthorized request/connection";
+            let rawResponse = {status, message, messageDetail};
 
             Security.returnResponse(res, req, rawResponse);
             return;

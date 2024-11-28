@@ -6,7 +6,7 @@ class General {
         let data = {
             status : false,
             message,
-            message_detail : "",
+            messageDetail : "",
             responseData : {},
             errorData : {},
         }

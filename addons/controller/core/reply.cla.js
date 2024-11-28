@@ -14,7 +14,7 @@ class Reply {
         this.response = {
             status:false,
             message: "failed",
-            message_detail: "Request failed",
+            messageDetail: "Request failed",
             responseData:{},
             errorData:{}
         }
@@ -30,7 +30,7 @@ class Reply {
 
     // CREATE REPLY
     async addReply() {
-        this.response['message_detail'] = "Comment could not be added at the moment";
+        this.response['messageDetail'] = "Comment could not be added at the moment";
         try {
             //get commentData
             const CommentId = await DB.findSingleValue('Comment', 'comment_id', this.input.comment_id, 'id');
@@ -46,7 +46,7 @@ class Reply {
                     //set response
                     this.response['status'] = true;
                     this.response['message'] = "Success";
-                    this.response['message_detail'] = "Comment successfully added";
+                    this.response['messageDetail'] = "Comment successfully added";
                     this.response['responseData'] = result.dataValues;
                 }
             }
@@ -60,7 +60,7 @@ class Reply {
 
     // UPDATE REPLY
     async updateReply() {
-        this.response['message_detail'] = "Comment could not be updated, you may not be eligible to update comment or the comment is not available";
+        this.response['messageDetail'] = "Comment could not be updated, you may not be eligible to update comment or the comment is not available";
         try {
             const { reply_id } = this.input;
             const { id: UserId } = this.userData;
@@ -77,7 +77,7 @@ class Reply {
                     //set response
                     this.response['status'] = true;
                     this.response['message'] = "Success";
-                    this.response['message_detail'] = "Comment successfully updated";
+                    this.response['messageDetail'] = "Comment successfully updated";
                 }
             }
 
@@ -90,7 +90,7 @@ class Reply {
 
     // DELETE REPLY
     async deleteReply() {
-        this.response['message_detail'] = "Comment could not be deleted, you may not be eligible to delete comment or the comment is not available";
+        this.response['messageDetail'] = "Comment could not be deleted, you may not be eligible to delete comment or the comment is not available";
         try {
             const { reply_id } = this.input;
             const { id: UserId } = this.userData;
@@ -102,7 +102,7 @@ class Reply {
                     //set response
                     this.response['status'] = true;
                     this.response['message'] = "Success";
-                    this.response['message_detail'] = "Comment successfully deleted";
+                    this.response['messageDetail'] = "Comment successfully deleted";
                 }
             }
         } catch (err) {

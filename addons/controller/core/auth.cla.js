@@ -16,7 +16,7 @@ class Auth {
         this.response = {
             status:false,
             message: "failed",
-            message_detail: "Request failed",
+            messageDetail: "Request failed",
             responseData:{},
             errorData:{}
         }
@@ -33,7 +33,7 @@ class Auth {
     // LOGIN
     async login() {
         this.response['message'] = "Incorrect login details";
-        this.response['message_detail'] = "Check your login details and try again.";
+        this.response['messageDetail'] = "Check your login details and try again.";
         try {
             const {login_id , password} = this.input;
             const where = {[Op.or]: [{ username: login_id }, { email: login_id }]};
@@ -46,7 +46,7 @@ class Auth {
                 if (Security.verify_password(password, db_password)) {
                     if (userStatus === 'suspended') {
                         this.response['message'] = "Your account has been suspended";
-                        this.response['message_detail'] = "Contact admin for more information";
+                        this.response['messageDetail'] = "Contact admin for more information";
                     } else {
                         //get userData and remove password, id and user_code
                         const userData = result.dataValues;
@@ -57,7 +57,7 @@ class Auth {
                             this.response['status'] = true;
                             this.response['id'] = user_code;
                             this.response['message'] = "Success";
-                            this.response['message_detail'] = "Login successful";
+                            this.response['messageDetail'] = "Login successful";
                             this.response['responseData'] = userData;
                         }
                     }
@@ -74,7 +74,7 @@ class Auth {
 
     // REGISTER
     async register(regType) {
-        this.response['message_detail'] = "Registration failed";
+        this.response['messageDetail'] = "Registration failed";
         try {
             //set unique_id and user_code into input
             this.input.unique_id = Security.generateUniqueId(10);
@@ -96,7 +96,7 @@ class Auth {
                     this.response['status'] = true;
                     this.response['id'] = user_code;
                     this.response['message'] = "Success";
-                    this.response['message_detail'] = "Account successfully created";
+                    this.response['messageDetail'] = "Account successfully created";
                     this.response['responseData'] = userData;
                     
                     //send email
