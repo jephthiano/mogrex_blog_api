@@ -93,10 +93,10 @@ class Comment {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
-                this.response['message_detail'] = "Post successfully deleted";
+                this.response['message_detail'] = "Comment successfully deleted";
             }
         } catch (err) {
-            Post.logError('Delete Post [POST CLASS]', err);
+            Post.logError('Delete Comment [Comment CLASS]', err);
         }
 
         return this.response;

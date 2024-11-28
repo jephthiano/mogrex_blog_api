@@ -50,7 +50,6 @@ class Auth {
                     } else {
                         //get userData and remove password, id and user_code
                         const userData = result.dataValues;
-                        delete userData.id
                         delete userData.password
                         delete userData.user_code
                         
@@ -85,7 +84,6 @@ class Auth {
                 const { user_code } = userData;
                 
                 //remove password, id and user_code
-                delete userData.id
                 delete userData.password
                 delete userData.user_code
                 
