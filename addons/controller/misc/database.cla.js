@@ -27,7 +27,7 @@ class Database {
     }
 
     static async seqDBConn() {
-        const sequelize = new Sequelize('database', 'username', 'password', {
+        const sequelize = new Sequelize('mogrex_blog', 'root', 'jephthahJEHOVAHgod332$', {
             host: 'localhost',
             dialect: 'mysql'
         });
