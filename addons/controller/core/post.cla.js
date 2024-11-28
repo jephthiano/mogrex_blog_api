@@ -1,7 +1,7 @@
 const { Post: PostSch } = require(SCHEMA + 'schema');
 
+const Security = require(MISC_CON + 'security.cla');
 const General = require(MISC_CON + 'general.cla');
-
 
 class Post {
     constructor(req, res) {
@@ -33,6 +33,7 @@ class Post {
         try {
             //setting UserId into this.input
             this.input.UserId = this.userData.id;
+            this.input.post_id = Security.generateUniqueId(10);
             //save into db
             let result = await PostSch.create(this.input);
 

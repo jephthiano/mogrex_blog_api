@@ -29,13 +29,11 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: "user" + Security.generateUniqueId(10),
     },
     user_code: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: Security.generateUniqueToken(),
     },
     email: {
       type: DataTypes.STRING,
@@ -94,7 +92,6 @@ Post.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: Security.generateUniqueId(10),
     },
     title: {
       type: DataTypes.STRING,
@@ -133,7 +130,6 @@ Comment.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: Security.generateUniqueId(10),
     },
     content: {
       type: DataTypes.STRING,
@@ -159,7 +155,6 @@ Reply.init(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      defaultValue: Security.generateUniqueId(10),
     },
     content: {
       type: DataTypes.STRING,

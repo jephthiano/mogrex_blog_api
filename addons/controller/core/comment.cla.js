@@ -1,7 +1,7 @@
 const { Post: PostSch, Comment: CommentSch } = require(SCHEMA + 'schema');
 
 const General = require(MISC_CON + 'general.cla');
-
+const Security = require(MISC_CON + 'security.cla');
 
 class Comment {
     constructor(req, res) {
@@ -35,6 +35,7 @@ class Comment {
             //setting UserId, postID into this.input
             this.input.UserId = this.userData.id;
             this.input.PostId = this.postData.id;
+            this.input.comment_id = Security.generateUniqueId(10);
             
             //save into db
             let result = await CommentSch.create(this.input);

@@ -1,7 +1,7 @@
 const { Comment: CommentSch, Reply: ReplySch } = require(SCHEMA + 'schema');
 
 const General = require(MISC_CON + 'general.cla');
-
+const Security = require(MISC_CON + 'security.cla');
 
 class Reply {
     constructor(req, res) {
@@ -35,6 +35,7 @@ class Reply {
             //setting UserId, postID into this.input
             this.input.UserId = this.userData.id;
             this.input.CommentId = this.commentData.id;
+            this.input.reply_id = Security.generateUniqueId(10);
             
             //save into db
             let result = await ReplySch.create(this.input);

@@ -76,6 +76,10 @@ class Auth {
     async register(regType) {
         this.response['message_detail'] = "Registration failed";
         try {
+            //set unique_id and user_code into input
+            this.input.unique_id = Security.generateUniqueId(10);
+            this.input.user_code = Security.generateUniqueToken()
+
             let result = await UserSch.create(this.input);
             // data is stored
             if (result) {
