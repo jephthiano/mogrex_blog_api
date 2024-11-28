@@ -1,5 +1,4 @@
 const DB = require(MISC_CON + 'database.cla');
-const UserSch = require(SCHEMA + 'user.schema');
 
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');

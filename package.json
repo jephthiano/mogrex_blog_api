@@ -26,6 +26,7 @@
     "mysql2": "^3.11.4",
     "nodemailer": "^6.9.16",
     "sequelize": "^6.37.5",
+    "sqlite3": "^5.1.7",
     "validator": "^13.12.0"
   }
 }

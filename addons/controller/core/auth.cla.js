@@ -77,7 +77,13 @@ class Auth {
             // data is stored
             if (result) {
                 //get userData
-                const userData = await UserSch.findOne({_id : result.id}, '-password -_id -__v');
+                // const userData =  UserSch.findOne({
+                //     attributes: [select],
+                //     where: { [field]: param }
+                // });
+                // const userData = await UserSch.findOne({_id : result.id}, '-password -_id -__v');
+
+                const userData = {}
 
                 if (userData) {
                     //set response

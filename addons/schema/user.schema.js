@@ -1,70 +1,61 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Sequelize, DataTypes, Model } = require('sequelize');
+const sequelize = new Sequelize('sqlite::memory:');
 
 const Security = require(MISC_CON + 'security.cla');
 
-const userSchema = new Schema({
-    unique_id: { //for unique id
-        type : String,
-        unique : true,
-        trim : true 
-    },
-    email: {  //user email
-        type : String,
-        unique : true,
-        required : [true, 'email is not specified'],
-        trim : true 
-    },
-    username: {  //user username
-        type : String,
-        unique : true,
-        required : [true, 'username is not specified'],
-        trim : true 
-    },
-    first_name: { 
-        type : String,
-        required : [true, 'first name is not specified'],
-        trim : true 
-    },
-    last_name: { 
-        type : String,
-        required : [true, 'last name is not specified'],
-        trim : true 
-    },
-    password: { 
-        type : String,
-        required : [true, 'password is not specified'],
-        trim : true 
-    },
-    user_level: { 
-        type : Number,
-        enum : [1, 2, 3],
-        default : 1
-    },
-    status: { 
-        type : String,
-        enum : ['active','suspended'],
-        default : 'active'
-    },
-    reg_date: { 
-        type : Date, 
-        default : Date.now()
-    }
-});
+class User extends Model {}
 
-
-userSchema.pre('save', function (next) {
-    //set unique id
-    this.unique_id = "user" + Security.generateUniqueId(10);
-
-    //hash password
-    if (this.isModified('password')) {
-        this.password = Security.hash_password(this.password);
-    }
-    
-    next();
-});
-
-const User = mongoose.model('users', userSchema);
+User.init(
+  {
+    // Model attributes are defined here
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    first_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      // allowNull defaults to true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      set(value) {
+        // Hashing the value with an appropriate cryptographic hash function is better.
+        this.setDataValue('password', Security.hash_password(value));
+      },
+    },
+    user_level: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 1
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 1
+    },
+    reg_date: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+  },
+  {
+    // Other model options go here
+    sequelize, // We need to pass the connection instance
+    modelName: 'User', // We need to choose the model name
+    tableName: 'users', //table name
+    timestamps: true, //enable timestamps
+    updatedAt: false // disable updated_at
+  },
+);
 
 module.exports = User;

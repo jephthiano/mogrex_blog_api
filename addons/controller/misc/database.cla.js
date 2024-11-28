@@ -50,11 +50,25 @@ class Database {
         })
     }
 
+    // static async findSingleValue (coll, field, param, select){
+    //     let response = false;
+    //     try{
+    //         const result = await eval(coll).findOne({[field] : param}, select);
+    //         if(result) response = await result[select];
+    //     }catch(err){
+    //         Database.logError("findSingleValue [DATABASE CLASS]", err);
+    //     }
+    //     return response;
+    // }
+
     static async findSingleValue (coll, field, param, select){
         let response = false;
-        try{
-            const result = await eval(coll).findOne({[field] : param}, select);
-            if(result) response = await result[select];
+        try {
+            const result = await eval(coll).findOne({
+                attributes: [select],
+                where: { [field]: param }
+            });
+            if(result) response = result[select];
         }catch(err){
             Database.logError("findSingleValue [DATABASE CLASS]", err);
         }
