@@ -61,13 +61,13 @@ class Comment {
             const { id: UserId } = this.userData;
 
             //save into db
-            let updatePostData = await PostSch.update(
+            let updateCommentData = await CommentSch.update(
                 this.input,
                 { where: { comment_id, UserId } },
             );
 
             // data is stored
-            if (updatePostData[0]) {
+            if (updateCommentData[0]) {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
