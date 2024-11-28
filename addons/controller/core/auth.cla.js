@@ -1,4 +1,5 @@
-const UserSch = require(SCHEMA + 'user.schema');
+const { User: UserSch } = require(SCHEMA + 'schema');
+const { Op } = require('sequelize');
 
 const Security = require(MISC_CON + 'security.cla');
 const General = require(MISC_CON + 'general.cla');
@@ -35,23 +36,27 @@ class Auth {
         this.response['message_detail'] = "Check your login details and try again.";
         try {
             const {login_id , password} = this.input;
-            const where = {$or: [{ username: login_id }, { email: login_id }]};
-            const result = await UserSch.findOne(where, 'password status');
+            const where = {[Op.or]: [{ username: login_id }, { email: login_id }]};
+            const result = await UserSch.findOne({where});
             
             //if result is found
             if (result) {
-                const { password: db_password, status: userStatus, id } = result;
+                const { password: db_password, status: userStatus, user_code } = result.dataValues;
 
                 if (Security.verify_password(password, db_password)) {
                     if (userStatus === 'suspended') {
                         this.response['message'] = "Your account has been suspended";
                         this.response['message_detail'] = "Contact admin for more information";
                     } else {
-                        //get userData
-                        const userData = await UserSch.findOne({_id : result.id}, '-password -_id -__v');
+                        //get userData and remove password, id and user_code
+                        const userData = result.dataValues;
+                        delete userData.id
+                        delete userData.password
+                        delete userData.user_code
+                        
                         if (userData) {
                             this.response['status'] = true;
-                            this.response['id'] = result.id;
+                            this.response['id'] = user_code;
                             this.response['message'] = "Success";
                             this.response['message_detail'] = "Login successful";
                             this.response['responseData'] = userData;
@@ -73,22 +78,21 @@ class Auth {
         this.response['message_detail'] = "Registration failed";
         try {
             let result = await UserSch.create(this.input);
-
             // data is stored
             if (result) {
-                //get userData
-                // const userData =  UserSch.findOne({
-                //     attributes: [select],
-                //     where: { [field]: param }
-                // });
-                // const userData = await UserSch.findOne({_id : result.id}, '-password -_id -__v');
-
-                const userData = {}
-
+                //get userData 
+                const userData = result.dataValues;
+                const { user_code } = userData;
+                
+                //remove password, id and user_code
+                delete userData.id
+                delete userData.password
+                delete userData.user_code
+                
                 if (userData) {
                     //set response
                     this.response['status'] = true;
-                    this.response['id'] = result.id;
+                    this.response['id'] = user_code;
                     this.response['message'] = "Success";
                     this.response['message_detail'] = "Account successfully created";
                     this.response['responseData'] = userData;

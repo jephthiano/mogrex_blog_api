@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const User = require(SCHEMA + 'user.schema');
+const { User: UserSch } = require(SCHEMA + 'schema');
 
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
@@ -30,12 +30,13 @@ class Token {
         if (token) {
             try{
                 var decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+                console.log(token)
                 if (decoded.id) {
                     //get the user details and pass it into req
-                    const userData = await User.findOne({_id : decoded.id});
+                    const userData = await UserSch.findOne({ where: {user_code: decoded.id } });
                     if (userData) { 
                         //if user is not suspended
-                        if (userData.status !== 'suspended') {
+                        if (userData.status === 'active') {
                             //set user data and token into req
                             req.data['token'] = token;
                             req.data['userData'] = userData;

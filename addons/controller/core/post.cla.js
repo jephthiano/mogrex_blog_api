@@ -1,6 +1,5 @@
-const PostSch = require(SCHEMA + 'post.schema');
+const { Post: PostSch } = require(SCHEMA + 'schema');
 
-const Security = require(MISC_CON + 'security.cla');
 const General = require(MISC_CON + 'general.cla');
 
 
@@ -39,18 +38,16 @@ class Post {
 
             // data is stored
             if (result) {
+                
                 //get postData
-                const postData = await PostSch.findOne({_id : result.id}, '-_id -__v');
+                const postData = result.dataValues;
+                delete postData.id
 
-                if (postData) {
-                    //set response
-                    this.response['status'] = true;
-                    this.response['message'] = "Success";
-                    this.response['message_detail'] = "Post successfully created";
-                    this.response['responseData'] = postData;
-                    
-                    
-                }
+                //set response
+                this.response['status'] = true;
+                this.response['message'] = "Success";
+                this.response['message_detail'] = "Post successfully created";
+                this.response['responseData'] = postData;
             }
         } catch (err) {
             Post.logError('Create Post [POST CLASS]', err);
@@ -67,20 +64,17 @@ class Post {
             const { id: created_by } = this.userData;
 
             //save into db
-            let updatePostData = await PostSch.findOneAndUpdate(
-                { post_id, created_by },
+            let updatePostData = await PostSch.update(
                 this.input,
-                {new: true}
+                { where: { post_id, created_by } },
             );
 
             // data is stored
-            if (updatePostData) {
+            if (updatePostData[0]) {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
                 this.response['message_detail'] = "Post successfully updated";
-                this.response['responseData'] = updatePostData;  
-                  
             }
         } catch (err) {
             Post.logError('Update Post [POST CLASS]', err);
@@ -97,8 +91,9 @@ class Post {
             const { id: created_by } = this.userData;
 
             //find one and delete if valid
-            const deletePost = await PostSch.findOneAndDelete({ post_id, created_by });
+            const deletePost = await PostSch.destroy({ where: { post_id, created_by } });
 
+            console.log(deletePost);
             if (deletePost) {
                 //set response
                 this.response['status'] = true;

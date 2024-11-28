@@ -65,7 +65,7 @@ app.use(Request.setInputData);
 
 // DB CONNECTION
 DB.dbConn();
-DB.seqDBConn()
+// console.log(DB.seqDBConn()); return
 
 // USING ROUTERS
 app.use("/auth",auth);  // auth route

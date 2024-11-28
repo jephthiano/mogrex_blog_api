@@ -1,4 +1,4 @@
-const PostSch = require(SCHEMA + 'post.schema');
+const { Post: PostSch } = require(SCHEMA + 'schema');
 
 const General = require(MISC_CON + 'general.cla');
 // const Security = require(MISC_CON + 'security.cla');
@@ -10,7 +10,7 @@ class Post {
         let { title, content, tags } = inputs;
         let { id: created_by } = userData;
         
-        const title_exists = await PostSch.findOne({title, created_by});
+        const title_exists = await PostSch.findOne({ where: { title, created_by } });
 
         //check if title is empty
         if(!title || General.isEmptyString(title)){
