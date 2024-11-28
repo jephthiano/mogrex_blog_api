@@ -58,4 +58,7 @@ User.init(
   },
 );
 
+//create table automatically
+sequelize.sync({ force: false })
+
 module.exports = User;

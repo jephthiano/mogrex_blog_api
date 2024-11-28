@@ -29,12 +29,12 @@ class Database {
     static async seqDBConn() {
         const sequelize = new Sequelize('mogrex_blog', 'root', 'jephthahJEHOVAHgod332$', {
             host: 'localhost',
-            dialect: 'mysql'
+            dialect: 'mariadb'
         });
 
         try {
             await sequelize.authenticate();
-        console.log('Database connection has been established successfully.');
+            console.log('Database connection has been established successfully.');
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }
