@@ -32,7 +32,7 @@ class Post {
     async getPost(type) {
         //initializing variables
         let where = {};
-        let { query, tag, cur_page } = this.req.query
+        let { query, tag, currrent_page } = this.req.query
         this.response['messageDetail'] = `No result found for ${query} keyword, check your keyword and try again`;
 
         //setting the query
@@ -43,9 +43,9 @@ class Post {
             if (!query || !General.isValidData(query)) {
                 this.response['messageDetail'] = `Invalid search keyword, check your keyword`;
             } else {
-                const limit = 10;
-                const page = (cur_page > 1) ? cur_page : 1;
-                const offset = (page - 1) * limit;
+                const limit = 10; //setting limit
+                const page = (currrent_page > 1) ? currrent_page : 1; // setting the currrent page
+                const offset = (page - 1) * limit; // setting the offset
 
                 //setting where depending of it is search or filter
                 if (type === 'search') {
@@ -70,9 +70,10 @@ class Post {
                 this.response['message'] = "Success";
                 this.response['messageDetail'] = "";
                 this.response['responseData'] = {
+                    current_page: page,
                     total: 300,
                     total_result: result.length,
-                    result
+                    result,
                 };
                 
             }
