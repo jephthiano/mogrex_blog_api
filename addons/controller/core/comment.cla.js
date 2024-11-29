@@ -68,7 +68,7 @@ class Comment {
                 this.response['responseData'] = { current_page, total, total_result, result, };
             }
         } catch (err) {
-            Post.logError('Search Post [POST CLASS]', err);
+            Comment.logError('Get Comment [COMMENT CLASS]', err);
         }
 
         return this.response;
