@@ -67,7 +67,7 @@ class Post {
                 
                 //fetch result [return result or empty object]
                 let result = await PostSch.findAll(
-                    { where, offset, limit, order: [['id', 'DESC']] }
+                    { where, offset, limit, order: [['createdAt', 'DESC']] }
                 ) || {};
 
                 //set response
