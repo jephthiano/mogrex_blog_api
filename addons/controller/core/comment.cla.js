@@ -1,4 +1,4 @@
-const { Post: PostSch, Comment: CommentSch } = require(SCHEMA + 'schema');
+const { User: UserSch, Comment: CommentSch, Reply: ReplySch } = require(SCHEMA + 'schema');
 
 const DB = require(MISC_CON + 'database.cla');
 const General = require(MISC_CON + 'general.cla');
@@ -50,8 +50,16 @@ class Comment {
                         offset,
                         limit,
                         order: [['createdAt', 'DESC']],
-                        include: 'commentReply',
-                        include: User
+                        include: [
+                            {
+                                model: UserSch,
+                                attributes: ['first_name', 'last_name', 'unique_id']
+                            },
+                            {
+                                model: ReplySch,
+                                as: 'commentReply'
+                            }
+                        ],
                     }
                 ) || {};
 
