@@ -57,7 +57,7 @@ class Post {
                                 ]
                     }
                 } else if (type === 'filter') {
-                    
+                    where = { tags: { [Op.like]: `%${query}%` } }
                 }
                 
                 let result = await PostSch.findAll(
