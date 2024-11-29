@@ -7,6 +7,16 @@ const Security = require(MISC_CON + 'security.cla');
 const Post = require(CORE_CON + 'post.cla');
 const Validator = require(VALIDATORS + 'post.val');
 
+//GET CURRENT USER POST
+router.get('/user', async (req, res) => {
+    
+    const PostIns = new Post(req, res);
+    let response = await PostIns.getPost('user');
+
+    Security.returnResponse(res, req, response);
+    return;
+})
+
 //SEARCH, FILTER AND OTHER GET
 router.get('/:type', async(req,res) => {
     let response = General.initial_response('');
@@ -22,7 +32,7 @@ router.get('/:type', async(req,res) => {
     return;
 })
 
-//CREATE
+//CREATE POST
 router.post('/create', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
@@ -42,7 +52,7 @@ router.post('/create', async(req,res) => {
     return;
 })
 
-//UPDATE
+//UPDATE POST
 router.put('/update', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
@@ -62,7 +72,7 @@ router.put('/update', async(req,res) => {
     return;
 })
 
-//DELETE
+//DELETE POST
 router.delete('/delete', async(req, res) => {
     let response = General.initial_response('invalid_input');
 
