@@ -18,9 +18,9 @@ class Messaging {
         // console.log(data);
 
         let transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST, //can be ommited
-        port: process.env.SMTP_PORT, //can be omited
-        secure: true, //can be omited
+            host: process.env.SMTP_HOST, //can be omitted
+        port: process.env.SMTP_PORT, //can be omitted
+        secure: true, //can be omitted
         tls: {
             // rejectUnauthorized: true,
             // minVersion: "TLSv1.2"

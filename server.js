@@ -12,7 +12,7 @@ const port = process.env.PORT;
 
 // SET SERVER CORS
 const corsOptions = {
-        origin: process.env.CLIENT_URL,
+        origin: "*",
         allowedHeaders: "",
         credentials: true,
         methods: ['GET', 'POST', 'DELETE', 'PUT']

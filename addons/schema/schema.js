@@ -2,9 +2,9 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 
 const Security = require(MISC_CON + 'security.cla');
 
-const sequelize = new Sequelize('mogrex_blog', 'root', 'jephthahJEHOVAHgod332$', {
-    host: 'localhost',
-    dialect: 'mysql'
+const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER_NAME, process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST_NAME,
+    dialect: process.env.DB_TYPE
 });
 
 (async () => {
