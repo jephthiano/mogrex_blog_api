@@ -9,14 +9,15 @@ const Validator = require(VALIDATORS + 'post.val');
 
 //SEARCH
 router.get('/:type', async(req,res) => {
-    let response = General.initial_response('invalid_input');
+    let response = General.initial_response('');
+    const typeArray = ['search', 'filter']
     const { type } = req.params;
-    
-    console.log(type)
 
-    const PostIns = new Post(req, res);
-    response = await PostIns.getPost('search');
-    
+    if (typeArray.includes(type)) {
+        const PostIns = new Post(req, res);
+        response = await PostIns.getPost(type);
+    }
+
     Security.returnResponse(res, req, response);
     return;
 })
