@@ -3,8 +3,17 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 const Security = require(MISC_CON + 'security.cla');
 
 const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER_NAME, process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST_NAME,
-    dialect: process.env.DB_TYPE
+  host: process.env.DB_HOST_NAME,
+  dialect: process.env.DB_TYPE,
+  dialectOptions: {
+    connectTimeout: 60000 // 60 seconds 
+  },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 60000, // 60 seconds 
+    idle: 10000
+  }
 });
 
 (async () => {
