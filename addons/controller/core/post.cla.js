@@ -32,9 +32,9 @@ class Post {
     async getPost(type) {
         //initializing variables
         let where = {};
-        let { query, tag, currrent_page } = this.req.query
+        let { query, tag, current_page } = this.req.query
         this.response['messageDetail'] = `No result found, check your keyword and try again`;
-
+        console.lg
         //setting the query
         query = (type === 'search') ? query : (type === 'filter') ? tag : 'getall';
             
@@ -44,7 +44,7 @@ class Post {
                 this.response['messageDetail'] = `Invalid search keyword, check your keyword`;
             } else {
                 const limit = 10; //setting limit
-                const page = (currrent_page > 1) ? currrent_page : 1; // setting the currrent page
+                const page = (current_page > 1) ? current_page : 1; // setting the current page
                 const offset = (page - 1) * limit; // setting the offset
 
                 //setting [where] depending of it is search, filter, user or general fetch
@@ -61,9 +61,8 @@ class Post {
                     //for tags
                     where = { tags: { [Op.like]: `%${query}%` } }
                 } else if (type === 'user') {
-                    cos
                     // for current user posts
-                    where = { id: this.req.userData.id}
+                    where = { UserId: this.userData.id}
                 }
                 
                 //fetch result [return result or empty object]
