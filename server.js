@@ -72,7 +72,7 @@ DB.dbConn();
 
 // USING ROUTERS
 app.use("/auth",auth);  // auth route
-app.use("/post", Token.verifyToken, post);  // post route
+app.use("/post", post);  // post route
 app.use("/comment", Token.verifyToken, comment);  // comment route
 app.use("/reply", Token.verifyToken, reply);  // reply route
 app.use("/like", Token.verifyToken, like);  // like route
