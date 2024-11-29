@@ -33,7 +33,7 @@ class Post {
         //initializing variables
         let where = {};
         let { query, tag, currrent_page } = this.req.query
-        this.response['messageDetail'] = `No result found for ${query} keyword, check your keyword and try again`;
+        this.response['messageDetail'] = `No result found, check your keyword and try again`;
 
         //setting the query
         query = (type === 'search') ? query : (type === 'filter') ? tag : 'getall';
@@ -61,6 +61,7 @@ class Post {
                     //for tags
                     where = { tags: { [Op.like]: `%${query}%` } }
                 } else if (type === 'user') {
+                    cos
                     // for current user posts
                     where = { id: this.req.userData.id}
                 }
