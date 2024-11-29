@@ -11,7 +11,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER_NAM
   pool: {
     max: 5,
     min: 0,
-    acquire: 60000, // 60 seconds 
+    acquire: 1000000, // 10000 seconds 
     idle: 10000
   }
 });
