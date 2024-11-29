@@ -3,12 +3,23 @@ const router = new express.Router();
 
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
+const Token = require(MISC_CON + 'token.cla');
 
 const Comment = require(CORE_CON + 'comment.cla');
 const Validator = require(VALIDATORS + 'comment.val');
 
+//GET POST COMMENT
+router.get('/', async (req, res) => {
+    
+    const CommentIns = new Comment(req, res);
+    let response = await CommentIns.getComment();
+
+    Security.returnResponse(res, req, response);
+    return;
+})
+
 //CREATE
-router.post('/create', async(req,res) => {
+router.post('/create',Token.verifyToken, async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
@@ -28,7 +39,7 @@ router.post('/create', async(req,res) => {
 })
 
 //UPDATE
-router.put('/update', async(req,res) => {
+router.put('/update', Token.verifyToken, async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
@@ -48,7 +59,7 @@ router.put('/update', async(req,res) => {
 })
 
 //DELETE
-router.delete('/delete', async(req, res) => {
+router.delete('/delete', Token.verifyToken, async(req, res) => {
     let response = General.initial_response('invalid_input');
 
     const CommentIns = new Comment(req, res);

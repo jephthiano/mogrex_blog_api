@@ -67,11 +67,11 @@ const like = require(ROUTER + 'like.rou');
 app.use(Request.setInputData);
 
 // USING ROUTERS
-app.use("/auth",auth);  // auth route
-app.use("/post", post);  // post route
-app.use("/comment", Token.verifyToken, comment);  // comment route
-app.use("/reply", Token.verifyToken, reply);  // reply route
-app.use("/like", Token.verifyToken, like);  // like route
+app.use("/auth",auth);  // auth route [unauthenticated]
+app.use("/post", post);  // post route [in-route authenticated]
+app.use("/comment", comment);  // comment route [in-route authenticated]
+app.use("/reply", Token.verifyToken, reply);  // reply route [authenticated]
+app.use("/like", Token.verifyToken, like);  // like route [authenticated]
 
 // if no url is matched
 app.use('*', (req, res) => {

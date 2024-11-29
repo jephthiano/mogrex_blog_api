@@ -3,7 +3,7 @@ const router = new express.Router();
 
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla')
-const Token = require(MISC_CON + 'token.cla');;
+const Token = require(MISC_CON + 'token.cla');
 
 const Post = require(CORE_CON + 'post.cla');
 const Validator = require(VALIDATORS + 'post.val');
@@ -34,7 +34,7 @@ router.get('/:type', async(req,res) => {
 })
 
 //CREATE POST
-router.post('/create', async(req,res) => {
+router.post('/create', Token.verifyToken, async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
@@ -54,7 +54,7 @@ router.post('/create', async(req,res) => {
 })
 
 //UPDATE POST
-router.put('/update', async(req,res) => {
+router.put('/update', Token.verifyToken, async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     //validate inputs
@@ -74,7 +74,7 @@ router.put('/update', async(req,res) => {
 })
 
 //DELETE POST
-router.delete('/delete', async(req, res) => {
+router.delete('/delete', Token.verifyToken, async(req, res) => {
     let response = General.initial_response('invalid_input');
 
     const PostIns = new Post(req, res);
