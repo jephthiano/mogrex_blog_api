@@ -12,7 +12,7 @@ router.get('/search', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     const PostIns = new Post(req, res);
-    response = await PostIns.searchPost();
+    response = await PostIns.getPost('searc');
     
     Security.returnResponse(res, req, response);
     return;
@@ -23,7 +23,7 @@ router.get('/filter', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     const PostIns = new Post(req, res);
-    response = await PostIns.searchPost();
+    response = await PostIns.getPost('filter');
     
     Security.returnResponse(res, req, response);
     return;

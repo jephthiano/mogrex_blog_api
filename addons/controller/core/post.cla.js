@@ -29,8 +29,10 @@ class Post {
     }
 
     // SEARCH POST
-    async searchPost() {
-        const { query, cur_page} = this.req.query
+    async getPost(type) {
+        //initializing variables
+        let where = {};
+        const { query, tag, cur_page } = this.req.query
         this.response['messageDetail'] = `No result found for ${query} keyword, check your keyword and try again`;
 
         try {
@@ -42,18 +44,21 @@ class Post {
                 const page = (cur_page > 1) ? cur_page : 1;
                 const offset = (page - 1) * limit;
 
-                let result = await PostSch.findAll(
-                    {
-                        where: {
-                            [Op.or]:
-                                [
+                //setting where depending of it is search or filter
+                if (type === 'search') {
+                    where = {
+                        [Op.or]: [
                                     { title: { [Op.like]: `%${query}%` } },
                                     { content: { [Op.like]: `%${query}%` } },
                                     { tags: { [Op.like]: `%${query}%` } },
                                 ]
-                        },
-                        offset, limit
                     }
+                } else if (type === 'filter') {
+                    
+                }
+                
+                let result = await PostSch.findAll(
+                    { where, offset, limit, order: [['id', 'DESC']] }
                 );
 
                 result = result || {};
@@ -75,6 +80,8 @@ class Post {
 
         return this.response;
     }
+
+
 
     // CREATE POST
     async createPost() {
