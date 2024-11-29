@@ -8,7 +8,7 @@ const Post = require(CORE_CON + 'post.cla');
 const Validator = require(VALIDATORS + 'post.val');
 
 //SEARCH
-router.get('/search', async(req,res) => {
+router.get('/:type', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     const PostIns = new Post(req, res);
