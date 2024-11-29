@@ -66,10 +66,6 @@ const like = require(ROUTER + 'like.rou');
 // SET INPUT DATA MIDDLEWARE
 app.use(Request.setInputData);
 
-// DB CONNECTION
-DB.dbConn();
-// console.log(DB.seqDBConn()); return
-
 // USING ROUTERS
 app.use("/auth",auth);  // auth route
 app.use("/post", post);  // post route
