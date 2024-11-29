@@ -72,7 +72,7 @@ class Comment {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
-                this.response['messageDetail'] = (total_result < 1) ? "No comment found" : ""; 
+                this.response['messageDetail'] = (total_result < 1) ? "No comment found" : " "; 
                 this.response['responseData'] = { current_page, total, total_result, result, };
             }
         } catch (err) {
