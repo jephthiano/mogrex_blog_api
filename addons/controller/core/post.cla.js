@@ -34,7 +34,7 @@ class Post {
         let where = {};
         let { query, tag, current_page } = this.req.query
         this.response['messageDetail'] = `No result found, check your keyword and try again`;
-        console.lg
+
         //setting the query
         query = (type === 'search') ? query : (type === 'filter') ? tag : 'getall';
             
@@ -44,8 +44,8 @@ class Post {
                 this.response['messageDetail'] = `Invalid search keyword, check your keyword`;
             } else {
                 const limit = 10; //setting limit
-                const page = (current_page > 1) ? current_page : 1; // setting the current page
-                const offset = (page - 1) * limit; // setting the offset
+                current_page = (current_page > 1) ? current_page : 1; // setting the current page
+                const offset = (current_page - 1) * limit; // setting the offset
 
                 //setting [where] depending of it is search, filter, user or general fetch
                 if (type === 'search') {
@@ -66,17 +66,20 @@ class Post {
                 }
                 
                 //fetch result [return result or empty object]
-                let result = await PostSch.findAll(
+                const result = await PostSch.findAll(
                     { where, offset, limit, order: [['createdAt', 'DESC']] }
                 ) || {};
+
+                //getting total available result
+                const total = await PostSch.count({where});
 
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
                 this.response['messageDetail'] = "";
                 this.response['responseData'] = {
-                    current_page: page,
-                    total: 300,
+                    current_page,
+                    total,
                     total_result: result.length,
                     result,
                 };
