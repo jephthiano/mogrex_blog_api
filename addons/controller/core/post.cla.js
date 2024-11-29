@@ -47,8 +47,9 @@ class Post {
                 const page = (currrent_page > 1) ? currrent_page : 1; // setting the currrent page
                 const offset = (page - 1) * limit; // setting the offset
 
-                //setting where depending of it is search or filter
+                //setting [where] depending of it is search, filter, user or general fetch
                 if (type === 'search') {
+                    //for search
                     where = {
                         [Op.or]: [
                                     { title: { [Op.like]: `%${query}%` } },
@@ -57,7 +58,11 @@ class Post {
                                 ]
                     }
                 } else if (type === 'filter') {
+                    //for tags
                     where = { tags: { [Op.like]: `%${query}%` } }
+                } else if (type === 'user') {
+                    // for current user posts
+                    where = { id: this.req.userData.id}
                 }
                 
                 //fetch result [return result or empty object]
