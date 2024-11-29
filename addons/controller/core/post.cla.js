@@ -33,7 +33,7 @@ class Post {
         //initializing variables
         let where = {};
         let { query, tag, current_page } = this.req.query
-        this.response['messageDetail'] = `No result found, check your keyword and try again`;
+        this.response['messageDetail'] = `No post found, check your keyword and try again`;
 
         //setting the query
         query = (type === 'search') ? query : (type === 'filter') ? tag : 'getall';
@@ -73,12 +73,13 @@ class Post {
                 //getting total available result
                 const total = await PostSch.count({ where });
                 
+                //current result total
                 const total_result = result.length;
 
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
-                this.response['messageDetail'] = (total_result < 1) ? "No result found" : ""; 
+                this.response['messageDetail'] = (total_result < 1) ? "No post found" : ""; 
                 this.response['responseData'] = { current_page, total, total_result, result, };
                 
             }

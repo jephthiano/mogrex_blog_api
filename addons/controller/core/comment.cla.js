@@ -38,8 +38,6 @@ class Comment {
             // get the post_id
             const PostId = await DB.findSingleValue('Post', 'post_id', post_id, 'id');
             if (PostId) {
-                //fetch comment on post
-                
                 const limit = 10; //setting limit
                 current_page = (current_page > 1) ? Number(current_page) : 1; // setting the current page
                 const offset = (current_page - 1) * limit; // setting the offset
@@ -47,7 +45,14 @@ class Comment {
 
                 //fetch result [return result or empty object]
                 const result = await CommentSch.findAll(
-                    { where, offset, limit, order: [['createdAt', 'DESC']] }
+                    {
+                        where,
+                        offset,
+                        limit,
+                        order: [['createdAt', 'DESC']],
+                        include: 'commentReply',
+                        include: User
+                    }
                 ) || {};
 
                 //getting total available result
@@ -59,7 +64,7 @@ class Comment {
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
-                this.response['messageDetail'] = (total_result < 1) ? "No result found" : ""; 
+                this.response['messageDetail'] = (total_result < 1) ? "No comment found" : ""; 
                 this.response['responseData'] = { current_page, total, total_result, result, };
             }
         } catch (err) {
