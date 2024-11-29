@@ -12,7 +12,7 @@ router.get('/search', async(req,res) => {
     let response = General.initial_response('invalid_input');
 
     const PostIns = new Post(req, res);
-    response = await PostIns.getPost('searc');
+    response = await PostIns.getPost('search');
     
     Security.returnResponse(res, req, response);
     return;
