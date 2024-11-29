@@ -2,13 +2,14 @@ const express = require('express');
 const router = new express.Router();
 
 const General = require(MISC_CON + 'general.cla');
-const Security = require(MISC_CON + 'security.cla');
+const Security = require(MISC_CON + 'security.cla')
+const Token = require(MISC_CON + 'token.cla');;
 
 const Post = require(CORE_CON + 'post.cla');
 const Validator = require(VALIDATORS + 'post.val');
 
 //GET CURRENT USER POST
-router.get('/user', async (req, res) => {
+router.get('/user', Token.verifyToken, async (req, res) => {
     
     const PostIns = new Post(req, res);
     let response = await PostIns.getPost('user');
