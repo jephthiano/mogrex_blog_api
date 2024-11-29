@@ -32,9 +32,12 @@ class Post {
     async getPost(type) {
         //initializing variables
         let where = {};
-        const { query, tag, cur_page } = this.req.query
+        let { query, tag, cur_page } = this.req.query
         this.response['messageDetail'] = `No result found for ${query} keyword, check your keyword and try again`;
 
+        //setting the query
+        query = (type === 'search') ? query : tag;
+            
         try {
             //if query is empty or invalid
             if (!query || !General.isValidData(query)) {
