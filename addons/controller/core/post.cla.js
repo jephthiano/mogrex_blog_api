@@ -44,7 +44,7 @@ class Post {
                 this.response['messageDetail'] = `Invalid search keyword, check your keyword`;
             } else {
                 const limit = 10; //setting limit
-                current_page = (current_page > 1) ? current_page : 1; // setting the current page
+                current_page = (current_page > 1) ? Number(current_page) : 1; // setting the current page
                 const offset = (current_page - 1) * limit; // setting the offset
 
                 //setting [where] depending of it is search, filter, user or general fetch
@@ -71,18 +71,15 @@ class Post {
                 ) || {};
 
                 //getting total available result
-                const total = await PostSch.count({where});
+                const total = await PostSch.count({ where });
+                
+                const total_result = result.length;
 
                 //set response
                 this.response['status'] = true;
                 this.response['message'] = "Success";
-                this.response['messageDetail'] = "";
-                this.response['responseData'] = {
-                    current_page,
-                    total,
-                    total_result: result.length,
-                    result,
-                };
+                this.response['messageDetail'] = (total_result < 1) ? "No result found" : ""; 
+                this.response['responseData'] = { current_page, total, total_result, result, };
                 
             }
         } catch (err) {
