@@ -28,7 +28,7 @@ class Post {
         General.log(type,data,'error');
     }
 
-    // SEARCH POST
+    // GET, SEARCH AND FILTER POST
     async getPost(type) {
         //initializing variables
         let where = {};
@@ -36,7 +36,7 @@ class Post {
         this.response['messageDetail'] = `No result found for ${query} keyword, check your keyword and try again`;
 
         //setting the query
-        query = (type === 'search') ? query : tag;
+        query = (type === 'search') ? query : (type === 'filter') ? tag : 'getall';
             
         try {
             //if query is empty or invalid
@@ -60,11 +60,10 @@ class Post {
                     where = { tags: { [Op.like]: `%${query}%` } }
                 }
                 
+                //fetch result [return result or empty object]
                 let result = await PostSch.findAll(
                     { where, offset, limit, order: [['id', 'DESC']] }
-                );
-
-                result = result || {};
+                ) || {};
 
                 //set response
                 this.response['status'] = true;

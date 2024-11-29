@@ -10,9 +10,8 @@ const Validator = require(VALIDATORS + 'post.val');
 //SEARCH, FILTER AND OTHER GET
 router.get('/:type', async(req,res) => {
     let response = General.initial_response('');
-    const typeArray = ['search', 'filter']
+    const typeArray = ['getall', 'search', 'filter']
     const { type } = req.params;
-    console.log('type');
 
     if (typeArray.includes(type)) {
         const PostIns = new Post(req, res);
