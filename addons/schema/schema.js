@@ -71,7 +71,7 @@ User.init(
     },
     user_level: {
       type: DataTypes.ENUM,
-      values: [1, 2, 3],
+      values: ['1', '2', '3'],
       defaultValue: 1
     },
     status: {
