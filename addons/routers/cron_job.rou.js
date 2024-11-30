@@ -5,7 +5,7 @@ const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
 
 
-//LOGIN
+//WAKE UP
 router.get('/wake_up', async(req,res) => {
     let response = General.initial_response('invalid_input');
     response['status'] = true;
