@@ -3,11 +3,10 @@ const router = new express.Router();
 
 const General = require(MISC_CON + 'general.cla');
 const Security = require(MISC_CON + 'security.cla');
-const Token = require(MISC_CON + 'token.cla');
 
 
 //LOGIN
-router.post('/wake_up', async(req,res) => {
+router.get('/wake_up', async(req,res) => {
     let response = General.initial_response('invalid_input');
     response['status'] = true;
     response['message'] = "Success";

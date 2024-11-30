@@ -57,12 +57,12 @@ const Request = require(MISC_CON + 'request.cla');
 const DB = require(MISC_CON + 'database.cla');
 
 // DECLARING ROUTERS
+const cronJob = require(ROUTER + 'cron_job.rou');
 const auth = require(ROUTER + 'auth.rou');
 const post = require(ROUTER + 'post.rou');
 const comment = require(ROUTER + 'comment.rou');
 const reply = require(ROUTER + 'reply.rou');
 const like = require(ROUTER + 'like.rou');
-const cronJob = require(ROUTER + 'like.rou');
 
 // SET INPUT DATA MIDDLEWARE
 app.use(Request.setInputData);
