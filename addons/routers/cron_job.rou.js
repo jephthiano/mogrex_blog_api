@@ -13,6 +13,7 @@ router.get('/wake_up', async(req,res) => {
     response['messageDetail'] = "Server successfully woken up";
     
     Security.returnResponse(res, req, response);
+    console.log('server still up and running at', new Date());
     return;
 })
 
