@@ -18,14 +18,15 @@ class Token {
     static setToken(id){
         const token = jwt.sign({ id: id }, process.env.JWT_SECRET_KEY);
 
-        return token;
+        //return enc token
+        return Security.sel_encry(token, 'token');
     }
 
     static async verifyToken(req, res, next){
         let response = false;
 
-        //get  token from the cookie
-        const token = req.cookies.token;
+        //get  token from the cookie [decrypt]
+        const token = Security.sel_decry(req.cookies.token, 'token');
         
         if (token) {
             try{

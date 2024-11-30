@@ -10,7 +10,7 @@ const key = process.env.ENC_KEY;
 const iv = process.env.ENC_IV;
 const method = process.env.ENC_METHOD;// Encryption method
 const cost = 10;
-const enc_array = ['general'];
+const enc_array = ['general', 'token'];
 
 class Security {
 
