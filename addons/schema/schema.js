@@ -9,10 +9,10 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER_NAM
     connectTimeout: 60000 // 60 seconds 
   },
   pool: {
-    max: 5,
+    max: 100,
     min: 0,
     acquire: 1000000, // 10000 seconds 
-    idle: 10000
+    idle: 200000,
   }
 });
 
