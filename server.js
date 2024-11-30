@@ -75,6 +75,7 @@ app.use("/like", Token.verifyToken, like);  // like route [authenticated]
 
 // if no url is matched
 app.use('*', (req, res) => {
+  
   res.status(404).send('Invalid request');
 })
 
