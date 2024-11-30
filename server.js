@@ -62,11 +62,13 @@ const post = require(ROUTER + 'post.rou');
 const comment = require(ROUTER + 'comment.rou');
 const reply = require(ROUTER + 'reply.rou');
 const like = require(ROUTER + 'like.rou');
+const cronJob = require(ROUTER + 'like.rou');
 
 // SET INPUT DATA MIDDLEWARE
 app.use(Request.setInputData);
 
 // USING ROUTERS
+app.use("/cronjob",cronJob);  // auth route [unauthenticated]
 app.use("/auth",auth);  // auth route [unauthenticated]
 app.use("/post", post);  // post route [in-route authenticated]
 app.use("/comment", comment);  // comment route [in-route authenticated]
