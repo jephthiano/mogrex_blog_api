@@ -39,8 +39,8 @@ app.use(xss()); //set express xss
 app.use(mongoSanitize());// set express mongo sanitize
 
 
-// CALLING FILES
-// Declaring Global variables
+
+// DECLARING GLOBAL VARIABLES
 global.__basedir = __dirname;
 global.ADDONS = __basedir + '/addons/';
 global.CONTROLLER = __basedir + '/addons/controller/';
