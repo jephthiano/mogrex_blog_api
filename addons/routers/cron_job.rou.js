@@ -18,5 +18,4 @@ router.get('/wake_up', async(req,res) => {
     return;
 })
 
-
 module.exports = router;
